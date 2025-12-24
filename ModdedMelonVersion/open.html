@@ -18,21 +18,15 @@
     p{margin:0 0 18px;color:var(--muted);font-size:14px;line-height:1.35}
 
     .cta{display:flex;gap:10px;justify-content:center}
-    .btn{background:var(--accent);border:none;color:#fff;padding:12px 16px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;cursor:pointer}
+    .btn{background:var(--accent);border:none;color:#fff;padding:12px 16px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block}
     .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.07);color:var(--muted)}
 
     .hint{font-size:13px;color:var(--muted);margin-top:14px}
 
-    /* small screen tweaks */
     @media (max-width:420px){ .card{padding:18px} }
-
-    /* subtle show/hide */
     .hidden{display:none !important}
-
-    /* keyboard focus */
     .btn:focus{outline:3px solid rgba(45,125,255,.18)}
 
-    /* simple modal for "show me" */
     .modal {
       position: fixed;
       inset: 0;
@@ -57,109 +51,86 @@
 <body>
 
   <div class="card" role="main" id="bridgeCard">
-    <h1 id="title">Open this page in your browser</h1>
-    <p id="subtitle">We detected that you're viewing this page inside an app. To continue securely and get the full experience, open this page in your device's browser.</p>
+    <h1>Open this page in your browser</h1>
+    <p id="subtitle">
+      We detected that you're viewing this page inside an app.
+      To continue securely, open it in your device browser.
+    </p>
 
-    <div class="cta" id="ctas">
+    <div class="cta">
       <button class="btn" id="copBtn" type="button">Show me where to tap</button>
       <button class="btn secondary" id="openBtn" type="button">Open anyway</button>
     </div>
 
-    <div class="hint" id="platformHint">Tip: Tap the <strong>three dots ⋮</strong> at the top-right and choose <strong>Open in browser</strong>.</div>
+    <div class="hint" id="platformHint">
+      Tip: Tap the <strong>three dots ⋮</strong> at the top-right and choose
+      <strong>Open in browser</strong>.
+    </div>
 
-    <div class="hint" style="margin-top:10px;font-size:12px;color:rgba(255,255,255,0.55)">If you are not inside an app, the button "Open anyway" will open the page normally.</div>
+    <div class="hint" style="margin-top:10px;font-size:12px;color:rgba(255,255,255,0.55)">
+      If you are not inside an app, the page will open normally.
+    </div>
   </div>
 
-  <!-- Modal (used by "Show me where to tap") -->
   <div class="modal" id="howModal" aria-hidden="true">
-    <div class="panel" role="dialog" aria-modal="true" aria-labelledby="howTitle">
-      <h3 id="howTitle" style="margin:0 0 8px;font-size:16px">How to open in browser</h3>
+    <div class="panel" role="dialog" aria-modal="true">
+      <h3 style="margin:0 0 8px;font-size:16px">How to open in browser</h3>
       <ol style="margin:0 0 8px 16px;line-height:1.5">
-        <li>Tap the <strong>three dots (⋮)</strong> in the top-right corner of the app.</li>
-        <li>From the menu choose <strong>Open in browser</strong> (or Open in Safari on iOS).</li>
-        <li>The page will open in your device browser where you can continue.</li>
+        <li>Tap the <strong>three dots (⋮)</strong> in the top-right corner.</li>
+        <li>Select <strong>Open in browser</strong> (or Safari on iOS).</li>
+        <li>Continue in Chrome or Safari.</li>
       </ol>
       <div class="close" id="closeModal">Close</div>
     </div>
   </div>
 
   <script>
-    (function (){
-      // --- Configuration ---
-      // Set the final landing page you want users to open (change this to your real page)
+    (function () {
       var TARGET_URL = 'https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion';
 
-      // Platform-specific messages
-      var hints = {
-        default: 'Tap the three dots ⋮ (top-right) and choose "Open in browser"',
-        ios: 'Tap the share icon (near the bottom) then "Open in Safari" on iOS, or choose "Open in browser" if available.',
-        android: 'Tap the ⋮ menu (top-right) and choose "Open in browser" (Chrome will open).'
-      };
+      var ua = navigator.userAgent || '';
+      var isInApp = /tiktok|instagram|fbav|facebook/i.test(ua);
+      var isIOS = /iphone|ipad|ipod/i.test(ua);
 
-      // Detect in-app webviews by userAgent - conservative check
-      var ua = navigator.userAgent || navigator.vendor || window.opera || '';
-      var isTikTok = /tiktok/i.test(ua);
-      var isInstagram = /instagram/i.test(ua);
-      var isFacebook = /fbav|facebook/i.test(ua);
-      var isInApp = isTikTok || isInstagram || isFacebook;
-
-      var platform = /iphone|ipad|ipod/i.test(ua) ? 'ios' : /android/i.test(ua) ? 'android' : 'default';
-
-      var card = document.getElementById('bridgeCard');
       var subtitle = document.getElementById('subtitle');
       var platformHint = document.getElementById('platformHint');
       var copBtn = document.getElementById('copBtn');
       var openBtn = document.getElementById('openBtn');
 
-      // Show or hide guidance depending on context
       if (!isInApp) {
-        // Not in known in-app browser -> let user open
-        subtitle.textContent = 'Looks like you are in a normal browser — you can continue.';
-        platformHint.textContent = 'If you want to open the external landing page, tap "Open anyway".';
-      } else {
-        // In-app -> show explicit instructions
-        subtitle.textContent = 'We detected you are viewing this page inside an app. Follow the steps below.';
-        platformHint.innerHTML = platform === 'ios' ? hints.ios : hints.android;
+        window.location.replace(TARGET_URL);
+        return;
       }
 
-      // Open anyway: attempt a user-initiated open
-      openBtn.addEventListener('click', function (){
+      platformHint.innerHTML = isIOS
+        ? 'Tap the share icon and choose <strong>Open in Safari</strong>.'
+        : 'Tap the <strong>three dots ⋮</strong> and choose <strong>Open in browser</strong>.';
+
+      openBtn.addEventListener('click', function () {
         try {
           var w = window.open(TARGET_URL, '_blank', 'noopener,noreferrer');
-          if (!w) {
-            window.location.href = TARGET_URL;
-          } else {
-            w.focus();
-          }
+          if (!w) window.location.href = TARGET_URL;
         } catch (e) {
           window.location.href = TARGET_URL;
         }
       });
 
-      // Show modal instructions on "Show me where to tap"
       var howModal = document.getElementById('howModal');
       var closeModal = document.getElementById('closeModal');
-      copBtn.addEventListener('click', function (){
+
+      copBtn.addEventListener('click', function () {
         howModal.classList.add('show');
-        howModal.setAttribute('aria-hidden','false');
       });
-      closeModal.addEventListener('click', function (){
+
+      closeModal.addEventListener('click', function () {
         howModal.classList.remove('show');
-        howModal.setAttribute('aria-hidden','true');
       });
 
-      // Accessibility: focus the primary CTA for keyboard users
-      copBtn.focus();
-
-      // Small UX tweak: hide modal on escape
-      document.addEventListener('keydown', function(e){
-        if (e.key === 'Escape') {
-          howModal.classList.remove('show');
-          howModal.setAttribute('aria-hidden','true');
-        }
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') howModal.classList.remove('show');
       });
-
     })();
   </script>
+
 </body>
 </html>
