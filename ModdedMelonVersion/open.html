@@ -1,136 +1,260 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-  <title>Open in Browser — Bridge</title>
-  <meta name="description" content="Bridge page that instructs users how to open the current page in their external browser (Chrome / Safari).">
-  <style>
-    :root{
-      --bg:#071025; --card:#0c1630; --accent:#2d7dff; --muted:rgba(255,255,255,0.75);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
-    body{background:linear-gradient(180deg,var(--bg),#04101f);color:#fff;display:flex;align-items:center;justify-content:center;padding:20px}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open in Browser</title>
 
-    .card{width:100%;max-width:420px;background:var(--card);border-radius:14px;padding:22px;box-shadow:0 10px 40px rgba(2,6,23,.6);text-align:center}
-    h1{font-size:18px;margin:0 0 8px}
-    p{margin:0 0 18px;color:var(--muted);font-size:14px;line-height:1.35}
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: #0b0f1a;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
 
-    .cta{display:flex;gap:10px;justify-content:center}
-    .btn{background:var(--accent);border:none;color:#fff;padding:12px 16px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block}
-    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.07);color:var(--muted)}
+  .box {
+    max-width: 360px;
+    background: #121833;
+    border-radius: 14px;
+    padding: 22px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0,0,0,.5);
+  }
 
-    .hint{font-size:13px;color:var(--muted);margin-top:14px}
+  h1 {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
 
-    @media (max-width:420px){ .card{padding:18px} }
-    .hidden{display:none !important}
-    .btn:focus{outline:3px solid rgba(45,125,255,.18)}
+  p {
+    font-size: 14px;
+    line-height: 1.45;
+    opacity: .9;
+  }
 
-    .modal {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: rgba(2,6,23,0.6);
-      z-index: 9999;
-    }
-    .modal .panel {
-      background: #09122a;
-      padding: 18px;
-      border-radius: 12px;
-      max-width: 340px;
-      color: #fff;
-      text-align: left;
-    }
-    .modal.show { display: flex; }
-    .modal .close { margin-top:10px; display:block; text-align:right; color:var(--muted); cursor:pointer; font-size:13px; }
-  </style>
+  .steps {
+    margin-top: 16px;
+    text-align: left;
+    font-size: 14px;
+  }
+
+  .steps li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+
+  /* Three dots visual */
+  .dots {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 1.6s infinite;
+    z-index: 999;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border-radius: 50%;
+    margin: 0 2px;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(45,125,255,.35); }
+    70% { box-shadow: 0 0 0 10px rgba(45,125,255,0); }
+    100% { box-shadow: 0 0 0 0 rgba(45,125,255,0); }
+  }
+
+  /* Optional: Add a button for trying to open in browser */
+  .try-button {
+    background: rgba(45,125,255,.2);
+    color: #fff;
+    border: 1px solid rgba(45,125,255,.4);
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-top: 20px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+  }
+
+  .try-button:hover {
+    background: rgba(45,125,255,.3);
+  }
+
+  .url-box {
+    margin-top: 20px;
+    padding: 12px;
+    background: rgba(255,255,255,.05);
+    border-radius: 8px;
+    font-size: 12px;
+    word-break: break-all;
+    text-align: left;
+  }
+
+  .url {
+    color: #2d7dff;
+    margin-top: 8px;
+    font-family: monospace;
+  }
+
+  .copy-btn {
+    background: rgba(255,255,255,.1);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-top: 10px;
+    cursor: pointer;
+    width: 100%;
+  }
+</style>
 </head>
+
 <body>
 
-  <div class="card" role="main" id="bridgeCard">
-    <h1>Open this page in your browser</h1>
-    <p id="subtitle">
-      We detected that you're viewing this page inside an app.
-      To continue securely, open it in your device browser.
-    </p>
+<!-- Visual hint for menu -->
+<div class="dots" aria-hidden="true">
+  <span class="dot"></span>
+  <span class="dot"></span>
+  <span class="dot"></span>
+</div>
 
-    <div class="cta">
-      <button class="btn" id="copBtn" type="button">Show me where to tap</button>
-      <button class="btn secondary" id="openBtn" type="button">Open anyway</button>
-    </div>
+<div class="box">
+  <h1>Open in Browser</h1>
+  <p>
+    This page is opened inside the TikTok app.<br>
+    To continue, please open it in your browser.
+  </p>
 
-    <div class="hint" id="platformHint">
-      Tip: Tap the <strong>three dots ⋮</strong> at the top-right and choose
-      <strong>Open in browser</strong>.
-    </div>
+  <ol class="steps">
+    <li>Tap the <strong>three dots (⋮)</strong> at the top right</li>
+    <li>Select <strong>"Open in browser"</strong></li>
+    <li>Continue in Chrome or Safari</li>
+  </ol>
 
-    <div class="hint" style="margin-top:10px;font-size:12px;color:rgba(255,255,255,0.55)">
-      If you are not inside an app, the page will open normally.
-    </div>
+  <button class="try-button" id="openBtn">
+    Try Opening in Browser
+  </button>
+
+  <div class="url-box">
+    <div>Or copy this URL to paste in Chrome/Safari:</div>
+    <div class="url" id="urlText">https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion</div>
+    <button class="copy-btn" id="copyBtn">
+      Copy URL
+    </button>
   </div>
 
-  <div class="modal" id="howModal" aria-hidden="true">
-    <div class="panel" role="dialog" aria-modal="true">
-      <h3 style="margin:0 0 8px;font-size:16px">How to open in browser</h3>
-      <ol style="margin:0 0 8px 16px;line-height:1.5">
-        <li>Tap the <strong>three dots (⋮)</strong> in the top-right corner.</li>
-        <li>Select <strong>Open in browser</strong> (or Safari on iOS).</li>
-        <li>Continue in Chrome or Safari.</li>
-      </ol>
-      <div class="close" id="closeModal">Close</div>
-    </div>
-  </div>
+  <p style="margin-top:14px;font-size:13px;opacity:.7">
+    This is required for full functionality.
+  </p>
+</div>
 
-  <script>
-    (function () {
-      var TARGET_URL = 'https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion';
-
-      var ua = navigator.userAgent || '';
-      var isInApp = /tiktok|instagram|fbav|facebook/i.test(ua);
-      var isIOS = /iphone|ipad|ipod/i.test(ua);
-
-      var subtitle = document.getElementById('subtitle');
-      var platformHint = document.getElementById('platformHint');
-      var copBtn = document.getElementById('copBtn');
-      var openBtn = document.getElementById('openBtn');
-
-      if (!isInApp) {
-        window.location.replace(TARGET_URL);
-        return;
-      }
-
-      platformHint.innerHTML = isIOS
-        ? 'Tap the share icon and choose <strong>Open in Safari</strong>.'
-        : 'Tap the <strong>three dots ⋮</strong> and choose <strong>Open in browser</strong>.';
-
-      openBtn.addEventListener('click', function () {
-        try {
-          var w = window.open(TARGET_URL, '_blank', 'noopener,noreferrer');
-          if (!w) window.location.href = TARGET_URL;
-        } catch (e) {
-          window.location.href = TARGET_URL;
-        }
-      });
-
-      var howModal = document.getElementById('howModal');
-      var closeModal = document.getElementById('closeModal');
-
-      copBtn.addEventListener('click', function () {
-        howModal.classList.add('show');
-      });
-
-      closeModal.addEventListener('click', function () {
-        howModal.classList.remove('show');
-      });
-
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') howModal.classList.remove('show');
-      });
-    })();
-  </script>
-
+<script>
+  // Your landing page URL
+  const TARGET_URL = "https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion";
+  
+  // Show URL in the box
+  document.getElementById('urlText').textContent = TARGET_URL;
+  
+  // Function to detect TikTok browser
+  function isTikTokBrowser() {
+    const ua = navigator.userAgent.toLowerCase();
+    return ua.includes('tiktok') || ua.includes('musically') || ua.includes('aweme');
+  }
+  
+  // Try to open in external browser
+  function openInExternalBrowser() {
+    const ua = navigator.userAgent.toLowerCase();
+    
+    // Change button text to indicate loading
+    const btn = document.getElementById('openBtn');
+    btn.textContent = 'Opening...';
+    btn.disabled = true;
+    
+    // For iOS
+    if (/iphone|ipad|ipod/.test(ua)) {
+      // Try Chrome first
+      window.location.href = "googlechromes://" + TARGET_URL.replace('https://', '');
+      
+      // Fallback to Safari if Chrome not installed
+      setTimeout(() => {
+        window.location.href = TARGET_URL;
+      }, 300);
+    }
+    // For Android
+    else if (/android/.test(ua)) {
+      // Try Chrome via intent
+      window.location.href = "intent://" + TARGET_URL.replace('https://', '') + "#Intent;scheme=https;package=com.android.chrome;end";
+      
+      // Fallback
+      setTimeout(() => {
+        window.location.href = TARGET_URL;
+      }, 300);
+    }
+    // For desktop or other
+    else {
+      window.location.href = TARGET_URL;
+    }
+    
+    // Reset button after 2 seconds
+    setTimeout(() => {
+      btn.textContent = 'Try Opening in Browser';
+      btn.disabled = false;
+    }, 2000);
+  }
+  
+  // Copy URL function
+  function copyUrl() {
+    const btn = document.getElementById('copyBtn');
+    const originalText = btn.textContent;
+    
+    navigator.clipboard.writeText(TARGET_URL).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => {
+        btn.textContent = originalText;
+      }, 2000);
+    }).catch(() => {
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = TARGET_URL;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      
+      btn.textContent = 'Copied!';
+      setTimeout(() => {
+        btn.textContent = originalText;
+      }, 2000);
+    });
+  }
+  
+  // Set up event listeners
+  document.getElementById('openBtn').addEventListener('click', openInExternalBrowser);
+  document.getElementById('copyBtn').addEventListener('click', copyUrl);
+  
+  // Check if we should show this page
+  if (!isTikTokBrowser()) {
+    // Not in TikTok - redirect to the actual page
+    window.location.href = TARGET_URL;
+  }
+</script>
 </body>
 </html>
