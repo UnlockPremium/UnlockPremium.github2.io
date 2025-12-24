@@ -48,4 +48,80 @@
         document.getElementById('current-url').textContent = window.location.href;
     </script>
 </body>
+    <script>
+// Detect TikTok in-app browser
+function isInTikTokApp() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    return /tiktok/i.test(userAgent) || 
+           /musically/i.test(userAgent) ||
+           /aweme/i.test(userAgent);
+}
+
+// Detect in-app browsers generally
+function isInAppBrowser() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const standalone = window.navigator.standalone;
+    const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+    
+    // Common in-app browser indicators
+    const isInApp = /FBAN|FBAV|Twitter|Instagram|Line|WhatsApp|Snapchat|TikTok|musically|aweme/i.test(userAgent);
+    
+    // iOS specific check
+    if (isIOS && !standalone && isInApp) {
+        return true;
+    }
+    
+    return isInApp;
+}
+
+// Redirect to external browser
+function redirectToExternalBrowser() {
+    const currentUrl = encodeURIComponent(window.location.href);
+    
+    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+        // For iOS - try to open in Safari
+        window.location.href = `googlechrome://${window.location.href.replace(/^https?:\/\//, '')}`;
+        
+        // Fallback with delay
+        setTimeout(function() {
+            window.location.href = `x-web-search://?${currentUrl}`;
+        }, 500);
+        
+        // Final fallback
+        setTimeout(function() {
+            window.location.href = currentUrl;
+        }, 1000);
+    } else {
+        // For Android - try to open in Chrome
+        window.location.href = `intent://${window.location.href.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
+    }
+}
+
+// Execute on page load
+if (isInTikTokApp() || isInAppBrowser()) {
+    // Show a message and create a button
+    document.addEventListener('DOMContentLoaded', function() {
+        // Create overlay/message
+        const overlay = document.createElement('div');
+        overlay.innerHTML = `
+            <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; display:flex; justify-content:center; align-items:center; color:white; text-align:center; padding:20px;">
+                <div>
+                    <h2>For the best experience</h2>
+                    <p>Please open this link in your browser</p>
+                    <button id="openExternalBtn" style="background:#007AFF; color:white; border:none; padding:12px 24px; border-radius:8px; font-size:16px; cursor:pointer; margin:10px;">
+                        Open in Browser
+                    </button>
+                    <p style="font-size:14px; opacity:0.8; margin-top:20px;">Tap the menu (•••) in TikTok and select "Open in browser"</p>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+        
+        // Add click handler
+        document.getElementById('openExternalBtn').addEventListener('click', function() {
+            redirectToExternalBrowser();
+        });
+    });
+}
+</script>
 </html>
