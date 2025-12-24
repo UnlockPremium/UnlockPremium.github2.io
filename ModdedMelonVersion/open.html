@@ -1,449 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open in Browser for Best Experience</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            background: linear-gradient(135deg, #000000, #1a1a2e);
+            margin: 0;
+            padding: 30px 20px;
+            background: #000;
             color: white;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            font-family: Arial;
+            text-align: center;
         }
         
         .container {
-            max-width: 500px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            padding: 40px 30px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
+            max-width: 300px;
+            margin: 0 auto;
         }
         
-        .emoji {
-            font-size: 70px;
-            margin-bottom: 20px;
-            animation: bounce 2s infinite;
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        h1 {
-            font-size: 28px;
-            margin-bottom: 15px;
-            background: linear-gradient(45deg, #69C9D0, #EE1D52);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .subtitle {
-            font-size: 16px;
-            opacity: 0.9;
-            margin-bottom: 30px;
-            line-height: 1.5;
-        }
-        
-        .steps {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 30px;
-            text-align: left;
+        h2 {
+            color: #69C9D0;
         }
         
         .step {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
+            background: #222;
             padding: 15px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            transition: transform 0.2s;
-        }
-        
-        .step:hover {
-            transform: translateX(5px);
-            background: rgba(105, 201, 208, 0.1);
-        }
-        
-        .step:last-child {
-            margin-bottom: 0;
-        }
-        
-        .step-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(45deg, #69C9D0, #EE1D52);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            flex-shrink: 0;
-            font-weight: bold;
-            font-size: 18px;
-        }
-        
-        .step-content {
-            flex: 1;
-        }
-        
-        .step-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: #69C9D0;
-        }
-        
-        .step-description {
-            font-size: 14px;
-            opacity: 0.8;
-        }
-        
-        .highlight {
-            background: rgba(105, 201, 208, 0.2);
-            color: #69C9D0;
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-weight: bold;
-            margin: 0 3px;
-        }
-        
-        .buttons {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .primary-btn {
-            flex: 1;
-            background: linear-gradient(45deg, #69C9D0, #EE1D52);
-            color: white;
-            border: none;
-            padding: 18px;
+            border-radius: 10px;
+            margin: 15px 0;
             font-size: 16px;
-            font-weight: 600;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .primary-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(105, 201, 208, 0.3);
-        }
-        
-        .primary-btn:active {
-            transform: translateY(0);
-        }
-        
-        .secondary-btn {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 18px;
-            font-size: 16px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .secondary-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-        
-        .url-box {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px dashed rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 20px;
             text-align: left;
         }
         
-        .url-label {
-            font-size: 14px;
-            opacity: 0.7;
-            margin-bottom: 8px;
-        }
-        
-        .url-text {
-            word-break: break-all;
-            font-size: 13px;
-            font-family: monospace;
+        .step b {
             color: #69C9D0;
-            margin-bottom: 15px;
         }
         
-        .copy-btn {
+        button {
+            background: #69C9D0;
+            color: black;
+            border: none;
+            padding: 15px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 12px;
-            border-radius: 8px;
+            border-radius: 10px;
+            font-weight: bold;
+            margin: 15px 0;
             cursor: pointer;
-            font-size: 14px;
-            transition: background 0.2s;
-        }
-        
-        .copy-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
         }
         
         .note {
             font-size: 14px;
-            opacity: 0.6;
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .loader {
-            display: none;
-            text-align: center;
-            padding: 30px;
-        }
-        
-        .loader-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: #69C9D0;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        @media (max-width: 480px) {
-            .container {
-                padding: 30px 20px;
-            }
-            
-            .emoji {
-                font-size: 60px;
-            }
-            
-            h1 {
-                font-size: 24px;
-            }
-            
-            .buttons {
-                flex-direction: column;
-            }
-            
-            .step {
-                padding: 12px;
-            }
+            color: #888;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="container" id="mainContainer">
-        <div class="emoji">🌐</div>
-        <h1>Open in Browser</h1>
-        <p class="subtitle">For the best experience and full functionality, open this page in Chrome, Safari, or your preferred browser.</p>
+    <div class="container">
+        <h2>🌐 Open in Browser</h2>
+        <p>For full features, open in Chrome/Safari:</p>
         
-        <div class="steps">
-            <div class="step">
-                <div class="step-icon">1</div>
-                <div class="step-content">
-                    <div class="step-title">Tap the Menu</div>
-                    <div class="step-description">Tap the <span class="highlight">•••</span> or <span class="highlight">Share</span> button at the top right corner of TikTok</div>
-                </div>
-            </div>
-            
-            <div class="step">
-                <div class="step-icon">2</div>
-                <div class="step-content">
-                    <div class="step-title">Select "Open in Browser"</div>
-                    <div class="step-description">From the menu, choose <span class="highlight">"Open in browser"</span> or <span class="highlight">"Browser"</span> option</div>
-                </div>
-            </div>
-            
-            <div class="step">
-                <div class="step-icon">3</div>
-                <div class="step-content">
-                    <div class="step-title">Choose Your Browser</div>
-                    <div class="step-description">Select <span class="highlight">Chrome</span>, <span class="highlight">Safari</span>, or your preferred browser to continue</div>
-                </div>
-            </div>
-        </div>
+        <div class="step">1. Tap <b>•••</b> at top</div>
+        <div class="step">2. Select <b>"Open in browser"</b></div>
+        <div class="step">3. Choose <b>Chrome/Safari</b></div>
         
-        <div class="buttons">
-            <button class="primary-btn" onclick="openInBrowser()">
-                <span>🚀 OPEN IN BROWSER</span>
-            </button>
-            <button class="secondary-btn" onclick="copyUrl()">
-                <span>📋 COPY URL</span>
-            </button>
-        </div>
+        <button onclick="openIt()">OPEN IN BROWSER</button>
         
-        <div class="url-box">
-            <div class="url-label">Or manually copy and paste this URL:</div>
-            <div class="url-text" id="currentUrl">Loading...</div>
-            <button class="copy-btn" onclick="copyUrl()">
-                📋 CLICK TO COPY URL
-            </button>
-        </div>
-        
-        <p class="note">TikTok's in-app browser may limit some features. For the full experience, please use Chrome or Safari.</p>
+        <div class="note">Copy URL if button doesn't work:<br>
+        https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion</div>
     </div>
     
-    <div class="loader" id="loader">
-        <div class="loader-spinner"></div>
-        <p>Redirecting to your content...</p>
-    </div>
-
     <script>
-        // Your original landing page URL
-        const LANDING_PAGE_URL = "https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion";
-        
-        // Function to detect TikTok in-app browser
-        function isTikTokBrowser() {
-            const ua = navigator.userAgent.toLowerCase();
+        function openIt() {
+            const url = "https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion";
             
-            // Direct TikTok app detection
-            if (ua.includes('tiktok') || ua.includes('musically') || ua.includes('aweme')) {
-                return true;
-            }
-            
-            // Additional checks for in-app browsers
-            const isMobile = /mobile|android|iphone|ipad|ipod/i.test(ua);
-            const isInApp = ua.includes('version/') || 
-                           ua.includes('mobile safari') && !ua.includes('chrome') ||
-                           document.referrer.includes('tiktok.com');
-            
-            return isMobile && isInApp;
-        }
-        
-        // Function to open in external browser
-        function openInBrowser() {
-            const url = LANDING_PAGE_URL;
-            
-            // Show loading
-            document.getElementById('mainContainer').style.display = 'none';
-            document.getElementById('loader').style.display = 'block';
-            
-            // Try different methods based on platform
-            if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                // iOS - Try Chrome first
-                window.location.href = `googlechromes://${url.replace(/^https?:\/\//, '')}`;
-                
-                // If Chrome is not installed, it will fall back to this after a delay
-                setTimeout(() => {
-                    window.location.href = url;
-                }, 300);
-            } else if (/Android/i.test(navigator.userAgent)) {
-                // Android - Try Chrome intent
-                window.location.href = `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
-                
-                // Fallback
-                setTimeout(() => {
-                    window.location.href = url;
-                }, 300);
+            if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+                window.location.href = "googlechromes://" + url.replace('https://', '');
+                setTimeout(() => window.location.href = url, 300);
             } else {
-                // Desktop or other - direct link
-                window.open(url, '_blank');
+                window.location.href = "intent://" + url.replace('https://', '') + "#Intent;scheme=https;package=com.android.chrome;end";
+                setTimeout(() => window.location.href = url, 300);
             }
         }
         
-        // Function to copy URL to clipboard
-        function copyUrl() {
-            const url = LANDING_PAGE_URL;
-            
-            // Try modern clipboard API first
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(url)
-                    .then(() => {
-                        showCopiedMessage();
-                    })
-                    .catch(err => {
-                        console.error('Clipboard error:', err);
-                        useFallbackCopy(url);
-                    });
-            } else {
-                // Fallback for older browsers
-                useFallbackCopy(url);
-            }
+        // If not TikTok, go to page
+        if (!navigator.userAgent.toLowerCase().includes('tiktok')) {
+            window.location.href = "https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion";
         }
-        
-        // Fallback copy method
-        function useFallbackCopy(text) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.left = '-999999px';
-            textArea.style.top = '-999999px';
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
-                showCopiedMessage();
-            } catch (err) {
-                alert('Please copy the URL manually: ' + text);
-            }
-            
-            document.body.removeChild(textArea);
-        }
-        
-        // Show copied message
-        function showCopiedMessage() {
-            alert('✅ URL copied! Now open Chrome/Safari and paste the URL to access your content.');
-        }
-        
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            const currentUrlElement = document.getElementById('currentUrl');
-            
-            // Display the URL
-            currentUrlElement.textContent = LANDING_PAGE_URL;
-            
-            // Check if we're in TikTok browser
-            if (isTikTokBrowser()) {
-                // Show the instructions - we're already showing them
-                console.log('Detected TikTok browser - showing instructions');
-            } else {
-                // NOT in TikTok browser - redirect immediately to the landing page
-                console.log('Not in TikTok browser - redirecting to:', LANDING_PAGE_URL);
-                window.location.href = LANDING_PAGE_URL;
-            }
-        });
-        
-        // If user is already in a proper browser, they won't even see this page
-        // because it will redirect immediately to your landing page
     </script>
 </body>
 </html>
