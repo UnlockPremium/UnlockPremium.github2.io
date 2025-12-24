@@ -1,75 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Continue</title>
-
-<style>
-  body {
-    margin: 0;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #0b0f1a;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    text-align: center;
-  }
-
-  .box {
-    max-width: 360px;
-    padding: 24px;
-    background: #11162a;
-    border-radius: 14px;
-    box-shadow: 0 0 30px rgba(0,0,0,.4);
-  }
-
-  h1 {
-    font-size: 18px;
-    margin-bottom: 12px;
-  }
-
-  p {
-    font-size: 14px;
-    opacity: .85;
-    margin-bottom: 20px;
-  }
-
-  .btn {
-    display: block;
-    background: #2d7dff;
-    color: #fff;
-    text-decoration: none;
-    padding: 14px;
-    border-radius: 10px;
-    font-weight: 600;
-  }
-
-  .hint {
-    margin-top: 14px;
-    font-size: 12px;
-    opacity: .6;
-  }
-</style>
+    <style>
+        .tiktok-warning {
+            text-align: center;
+            padding: 40px 20px;
+            font-family: Arial, sans-serif;
+        }
+        .steps {
+            text-align: left;
+            max-width: 400px;
+            margin: 30px auto;
+            line-height: 1.6;
+        }
+        .open-btn {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 20px;
+        }
+    </style>
 </head>
-
 <body>
-
-<div class="box">
-  <h1>Open in Browser</h1>
-  <p>Tap the button below to continue securely in your default browser.</p>
-
-  <!-- 🔴 CHANGE THIS URL ONLY -->
-  <a class="btn" href="https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion">
-    Continue
-  </a>
-
-  <div class="hint">
-    If nothing happens, tap ⋮ and choose “Open in browser”
-  </div>
-</div>
-
+    <div class="tiktok-warning">
+        <h2>🔗 Open in Browser for Better Experience</h2>
+        <p>For full functionality and faster loading:</p>
+        
+        <div class="steps">
+            <p>1. Tap <strong>•••</strong> at the top right</p>
+            <p>2. Select <strong>"Open in browser"</strong></p>
+            <p>3. Choose <strong>Chrome/Safari</strong></p>
+        </div>
+        
+        <button class="open-btn" onclick="window.open(window.location.href, '_system')">
+            Open in Browser
+        </button>
+        
+        <p><small>Or copy and paste this URL into your browser:<br>
+        <code id="current-url"></code></small></p>
+    </div>
+    
+    <script>
+        document.getElementById('current-url').textContent = window.location.href;
+    </script>
 </body>
 </html>
