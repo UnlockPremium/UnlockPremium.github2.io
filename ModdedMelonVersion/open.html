@@ -59,6 +59,23 @@
     color: #4A90E2;
     font-family: monospace;
   }
+  
+  .continue-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px;
+    background: #4A90E2;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background 0.3s;
+  }
+  
+  .continue-btn:hover {
+    background: #3a7bc8;
+  }
 </style>
 </head>
 
@@ -80,6 +97,10 @@
   <div class="url-box" id="urlText">
     https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion
   </div>
+  
+  <a href="https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion" class="continue-btn" id="continueBtn">
+    Continue to Site
+  </a>
 
   <p style="margin-top:14px;font-size:13px;opacity:.7">
     Copy the URL above and paste it in Chrome or Safari for the best experience.
@@ -93,63 +114,32 @@
   // Set the URL in the box
   document.getElementById('urlText').textContent = TARGET_URL;
   
-  // Better TikTok browser detection
-  function isTikTokBrowser() {
+  // Try to detect external browser and redirect
+  function tryRedirect() {
+    // Check for common external browsers
     const userAgent = navigator.userAgent.toLowerCase();
-    
-    // Check for TikTok in-app browser indicators
-    const tikTokIndicators = [
-      'tiktok',                    // Standard TikTok UA
-      'snssdk1233',                // TikTok's SDK
-      'snssdk1110',                // Another TikTok SDK
-      'aweme',                     // TikTok/Douyin
-      'musically',                 // Former name
-      'douyin',                    // Chinese version
-      'webview',                   // Generic webview (might be TikTok)
-      'inapp',                     // In-app browser indicator
-      'app',                       // Generic app indicator
-      'mobile',                    // Mobile browser
-      'iphone', 'ipad', 'android'  // Mobile devices
-    ];
-    
-    // Check if any indicator is in user agent
-    for (const indicator of tikTokIndicators) {
-      if (userAgent.includes(indicator)) {
-        return true;
-      }
-    }
-    
-    // Additional checks
-    const isInAppBrowser = (
-      // Check for common in-app browser patterns
-      (userAgent.includes('mobile') && userAgent.includes('safari') && !userAgent.includes('chrome')) ||
-      // Check for webview
-      (typeof window.orientation !== 'undefined') ||
-      // Check for touch events (common in mobile apps)
-      ('ontouchstart' in window) ||
-      // Check screen dimensions (mobile apps)
-      (window.screen.width <= 480)
+    const isExternalBrowser = (
+      userAgent.includes('chrome') && !userAgent.includes('edg') ||
+      userAgent.includes('safari') && !userAgent.includes('mobile') ||
+      userAgent.includes('firefox') ||
+      userAgent.includes('opera')
     );
     
-    return isInAppBrowser;
-  }
-  
-  // Check if we're in TikTok or similar in-app browser
-  if (isTikTokBrowser()) {
-    console.log("Detected TikTok or in-app browser - showing instructions");
-    // Stay on the instructions page
-  } else {
-    console.log("Detected external browser - redirecting");
     // Check URL parameters for manual override
     const urlParams = new URLSearchParams(window.location.search);
     const manualOverride = urlParams.get('m');
     
-    // Only redirect if there's no manual override parameter
-    if (manualOverride !== '1') {
-      // Redirect to the target URL
-      window.location.href = TARGET_URL;
+    // Only redirect if we detect an external browser AND no manual override
+    if (isExternalBrowser && manualOverride !== '1') {
+      // Small delay to ensure page loads before redirect
+      setTimeout(() => {
+        window.location.href = TARGET_URL;
+      }, 500);
     }
   }
+  
+  // Try to redirect on page load
+  tryRedirect();
 </script>
 
 </body>
