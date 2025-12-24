@@ -1,122 +1,112 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <title>Redirecting...</title>
-    <script>
-        // Your landing page URL
-        const targetUrl = "https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion";
-        
-        // Function to detect and redirect
-        function redirectToBrowser() {
-            const ua = navigator.userAgent.toLowerCase();
-            
-            // Check if in TikTok
-            const isTikTok = ua.includes('tiktok') || ua.includes('musically') || ua.includes('aweme');
-            
-            if (!isTikTok) {
-                // Not in TikTok - go directly to page
-                window.location.href = targetUrl;
-                return;
-            }
-            
-            // In TikTok - try to open in external browser
-            
-            // For iOS
-            if (/iphone|ipad|ipod/.test(ua)) {
-                // Try Chrome
-                window.location.href = "googlechromes://" + targetUrl.replace('https://', '');
-                
-                setTimeout(() => {
-                    // Try Safari
-                    window.location.href = targetUrl;
-                }, 50);
-            }
-            
-            // For Android
-            else if (/android/.test(ua)) {
-                // Try Chrome via intent
-                window.location.href = `intent://${targetUrl.replace('https://', '')}#Intent;scheme=https;package=com.android.chrome;end`;
-                
-                setTimeout(() => {
-                    window.location.href = targetUrl;
-                }, 50);
-            }
-            
-            // Other devices
-            else {
-                window.location.href = targetUrl;
-            }
-        }
-        
-        // Start redirect on page load
-        window.onload = redirectToBrowser;
-    </script>
-    
-    <style>
-        body {
-            margin: 0;
-            padding: 50px 20px;
-            background: #000;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        
-        .loading {
-            font-size: 18px;
-            margin-top: 20px;
-        }
-        
-        .dots {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background: #00f2fe;
-            border-radius: 50%;
-            margin: 0 5px;
-            animation: bounce 1.5s infinite;
-        }
-        
-        .dots:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        
-        .dots:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        
-        @keyframes bounce {
-            0%, 60%, 100% {
-                transform: translateY(0);
-            }
-            30% {
-                transform: translateY(-10px);
-            }
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Open in Browser</title>
+<style>
+  body{font-family:system-ui,Segoe UI,Roboto, Arial;background:#071025;color:#fff;margin:0;display:flex;align-items:center;justify-content:center;height:100vh;padding:18px}
+  .card{max-width:420px;width:100%;background:#0c1630;padding:22px;border-radius:12px;text-align:center}
+  h1{margin:0 0 8px;font-size:18px}
+  p{color:rgba(255,255,255,.82);margin:0 0 18px}
+  .btn{background:#2d7dff;padding:12px 16px;border-radius:10px;color:#fff;border:0;font-weight:600;cursor:pointer}
+  .secondary{background:transparent;border:1px solid rgba(255,255,255,.06);margin-left:10px}
+  .hint{font-size:13px;color:rgba(255,255,255,.7);margin-top:14px}
+</style>
 </head>
 <body>
-    <h2>Opening in Chrome/Safari...</h2>
-    <div class="loading">
-        <span class="dots"></span>
-        <span class="dots"></span>
-        <span class="dots"></span>
+  <div class="card">
+    <h1>Open in your browser</h1>
+    <p id="desc">We detected you're inside an app. Tap the button below to open this page in Chrome (Android) or follow the instructions shown.</p>
+
+    <div style="display:flex;justify-content:center;gap:8px;">
+      <button id="openBtn" class="btn">Open in browser</button>
+      <button id="guideBtn" class="btn secondary">Show how</button>
     </div>
-    
-    <script>
-        // Fallback if redirect fails
-        setTimeout(() => {
-            document.body.innerHTML = `
-                <div style="max-width:400px;margin:0 auto;padding:30px;">
-                    <h2>Open in Browser</h2>
-                    <p style="margin:20px 0;">Tap the <b>•••</b> at top and select "Open in browser"</p>
-                    <button onclick="window.location.href='${targetUrl}'" style="background:#00f2fe;color:black;border:none;padding:15px;border-radius:10px;font-size:16px;font-weight:bold;width:100%;margin:10px 0;">
-                        OPEN IN CHROME/SAFARI
-                    </button>
-                    <p style="font-size:14px;color:#888;margin-top:20px;">Or copy this URL: <span style="color:#00f2fe;font-size:12px;">${targetUrl}</span></p>
-                </div>
-            `;
-        }, 1500);
-    </script>
+
+    <div class="hint" id="hint">Tip: If nothing happens, open the menu (⋮) and choose "Open in browser".</div>
+  </div>
+
+<script>
+(function(){
+  // === CONFIGURE THIS ===
+  var TARGET_URL = 'https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion'; // <- set your landing page
+
+  // === helpers / detection ===
+  var ua = navigator.userAgent || '';
+  var isAndroid = /android/i.test(ua);
+  var isIOS = /iphone|ipad|ipod/i.test(ua);
+  var isTikTok = /tiktok/i.test(ua);
+  var isInstagram = /instagram/i.test(ua);
+  var isInApp = isTikTok || isInstagram || /fbav|facebook/i.test(ua);
+
+  var openBtn = document.getElementById('openBtn');
+  var guideBtn = document.getElementById('guideBtn');
+  var desc = document.getElementById('desc');
+  var hint = document.getElementById('hint');
+
+  // Show platform-specific hint
+  if (!isInApp) {
+    desc.textContent = 'Looks like you are already in an external browser — clicking will open the landing page.';
+    hint.textContent = '';
+  } else if (isIOS) {
+    desc.textContent = 'iOS in-app browsers usually block automatic handoff. Tap the menu then "Open in browser" (Safari or Chrome).';
+  } else {
+    desc.textContent = 'Tap the button — the page will try to open Chrome. If that fails, follow the manual steps shown.';
+  }
+
+  // PRIMARY: Attempt to open Chrome via Intent (Android)
+  openBtn.addEventListener('click', function(){
+    if (isAndroid) {
+      // Build an intent URI that requests Chrome. S.browser_fallback_url is used if Chrome can't handle it.
+      var fallback = encodeURIComponent(TARGET_URL);
+      // You may change package to another browser package (e.g., org.mozilla.firefox) if you want
+      var intentUri = 'intent://' + TARGET_URL.replace(/^https?:\/\//,'') +
+        '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + fallback + ';end';
+
+      // Create an anchor and user-click it (user gesture).
+      var a = document.createElement('a');
+      a.href = intentUri;
+      a.rel = 'noopener noreferrer';
+      // Use target _self because many in-app browsers open _blank internally too
+      a.target = '_self';
+      document.body.appendChild(a);
+
+      // user gesture click is required — do direct click
+      a.click();
+
+      // Fallback: after short delay, try a normal navigation (some in-app browsers swallow intents)
+      setTimeout(function(){
+        // This fallback will often open the page inside the WebView — keep instructions visible
+        window.location.href = TARGET_URL;
+      }, 1600);
+
+      return;
+    }
+
+    // iOS: try googlechrome:// scheme if Chrome installed (may be blocked)
+    if (isIOS) {
+      var iosChrome = TARGET_URL.replace(/^https?:\/\//,'googlechromes://'); // try secure chrome scheme
+      // user gesture
+      var a2 = document.createElement('a'); a2.href = iosChrome; a2.target = '_self'; a2.rel='noopener noreferrer';
+      document.body.appendChild(a2);
+      a2.click();
+
+      // fallback: open the URL (will usually stay in WebView)
+      setTimeout(function(){ window.location.href = TARGET_URL; }, 800);
+      return;
+    }
+
+    // Default: just navigate (user gesture)
+    window.location.href = TARGET_URL;
+  });
+
+  // Show a small visual guide instead of copy-to-clipboard (clear UX)
+  guideBtn.addEventListener('click', function(){
+    alert('In the top-right of the app, tap the three dots (⋮) then choose "Open in browser" or "Open in Safari".');
+  });
+
+})();
+</script>
 </body>
 </html>
