@@ -1,127 +1,176 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <style>
-        .tiktok-warning {
-            text-align: center;
-            padding: 40px 20px;
-            font-family: Arial, sans-serif;
-        }
-        .steps {
-            text-align: left;
-            max-width: 400px;
-            margin: 30px auto;
-            line-height: 1.6;
-        }
-        .open-btn {
-            background: #000;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            margin: 20px;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <title>Open in Browser — Bridge</title>
+  <meta name="description" content="Bridge page that instructs users how to open the current page in their external browser (Chrome / Safari).">
+  <style>
+    :root{
+      --bg:#071025; --card:#0c1630; --accent:#2d7dff; --muted:rgba(255,255,255,0.75);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
+    body{background:linear-gradient(180deg,var(--bg),#04101f);color:#fff;display:flex;align-items:center;justify-content:center;padding:20px}
+
+    .card{width:100%;max-width:420px;background:var(--card);border-radius:14px;padding:22px;box-shadow:0 10px 40px rgba(2,6,23,.6);text-align:center}
+    h1{font-size:18px;margin:0 0 8px}
+    p{margin:0 0 18px;color:var(--muted);font-size:14px;line-height:1.35}
+
+    .cta{display:flex;gap:10px;justify-content:center}
+    .btn{background:var(--accent);border:none;color:#fff;padding:12px 16px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.07);color:var(--muted)}
+
+    .hint{font-size:13px;color:var(--muted);margin-top:14px}
+
+    /* Top-right three-dot indicator (visual guide) */
+    .dot-ui{position:fixed;top:12px;right:12px;z-index:9999;display:flex;align-items:center;gap:8px}
+    .dots{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;position:relative}
+    .dot{width:6px;height:6px;background:#fff;border-radius:50%;margin:0 2px;opacity:.9}
+    .pulse{position:absolute;inset:-6px;border-radius:14px;box-shadow:0 0 0 6px rgba(45,125,255,0.08);animation:pulse 1.6s infinite}
+    @keyframes pulse{0%{transform:scale(.95);opacity:1}100%{transform:scale(1.35);opacity:0}}
+
+    /* arrow guide */
+    .arrow{position:fixed;top:60px;right:60px;width:120px;height:120px;pointer-events:none;z-index:9998;display:flex;align-items:center;justify-content:center}
+    .arrow svg{width:120px;height:120px;filter:drop-shadow(0 6px 20px rgba(2,6,23,.6));}
+    .arrow .tip{animation:bounce 1.6s infinite}
+    @keyframes bounce{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
+
+    /* small screen tweaks */
+    @media (max-width:420px){.arrow{right:36px;top:56px;width:96px;height:96px}.dots{width:40px;height:40px}}
+
+    /* subtle show/hide */
+    .hidden{display:none !important}
+
+    /* keyboard focus */
+    .btn:focus{outline:3px solid rgba(45,125,255,.18)}
+  </style>
 </head>
 <body>
-    <div class="tiktok-warning">
-        <h2>🔗 Open in Browser for Better Experience</h2>
-        <p>For full functionality and faster loading:</p>
-        
-        <div class="steps">
-            <p>1. Tap <strong>•••</strong> at the top right</p>
-            <p>2. Select <strong>"Open in browser"</strong></p>
-            <p>3. Choose <strong>Chrome/Safari</strong></p>
-        </div>
-        
-        <button class="open-btn" onclick="window.open(window.location.href, '_system')">
-            Open in Browser
-        </button>
-        
-        <p><small>Or copy and paste this URL into your browser:<br>
-        <code id="current-url"></code></small></p>
+
+  <!-- Visual 'three dots' indicator (helps the user locate the menu in TikTok/IG) -->
+  <div class="dot-ui" aria-hidden="true">
+    <div class="dots" id="threeDotsMock" title="Menu (visual guide)">
+      <div class="pulse"></div>
+      <div style="display:flex;align-items:center;gap:6px;padding:4px">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
     </div>
-    
-    <script>
-        document.getElementById('current-url').textContent = window.location.href;
-    </script>
+  </div>
+
+  <!-- Animated arrow pointing toward top-right -->
+  <div class="arrow" aria-hidden="true">
+    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.95">
+        <path d="M10 44c14-4 20-8 34-28" stroke="rgba(255,255,255,0.14)"/>
+        <path class="tip" d="M28 26 L46 8 M46 8 L52 14 M46 8 L40 14" stroke="white" stroke-width="2.2"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="card" role="main" id="bridgeCard">
+    <h1 id="title">Open this page in your browser</h1>
+    <p id="subtitle">We detected that you're viewing this page inside an app. To continue securely and get the full experience, open this page in your device's browser.</p>
+
+    <div class="cta" id="ctas">
+      <button class="btn" id="copBtn" type="button">Show me where to tap</button>
+      <button class="btn secondary" id="openBtn" type="button">Open anyway</button>
+    </div>
+
+    <div class="hint" id="platformHint">Tip: Tap the <strong>three dots ⋮</strong> at the top-right and choose <strong>Open in browser</strong>.</div>
+
+    <div class="hint" style="margin-top:10px;font-size:12px;color:rgba(255,255,255,0.55)">If you are not inside an app, the button "Open anyway" will open the page normally.</div>
+  </div>
+
+  <script>
+    (function (){
+      // --- Configuration ---
+      // Set the final landing page you want users to open (change this to your real page)
+      var TARGET_URL = 'https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion';
+
+      // Platform-specific messages
+      var hints = {
+        default: 'Tap the three dots ⋮ (top-right) and choose "Open in browser"',
+        ios: 'Tap the share icon (near the bottom) then "Open in Safari" on iOS, or choose "Open in browser" if available.',
+        android: 'Tap the ⋮ menu (top-right) and choose "Open in browser" (Chrome will open).'
+      };
+
+      // Detect in-app webviews by userAgent - conservative check
+      var ua = navigator.userAgent || navigator.vendor || window.opera || '';
+      var isTikTok = /tiktok/i.test(ua);
+      var isInstagram = /instagram/i.test(ua);
+      var isFacebook = /fbav|facebook/i.test(ua);
+      var isInApp = isTikTok || isInstagram || isFacebook;
+
+      var platform = /iphone|ipad|ipod/i.test(ua) ? 'ios' : /android/i.test(ua) ? 'android' : 'default';
+
+      var card = document.getElementById('bridgeCard');
+      var subtitle = document.getElementById('subtitle');
+      var platformHint = document.getElementById('platformHint');
+      var copBtn = document.getElementById('copBtn');
+      var openBtn = document.getElementById('openBtn');
+
+      // Show or hide guidance depending on context
+      if (!isInApp) {
+        // Not in known in-app browser -> hide the arrow/dots mock and let user open
+        document.querySelector('.dot-ui').classList.add('hidden');
+        document.querySelector('.arrow').classList.add('hidden');
+        subtitle.textContent = 'Looks like you are in a normal browser — you can continue.';
+        platformHint.textContent = 'If you want to open the external landing page, tap "Open anyway".';
+      } else {
+        // In-app -> show explicit instructions
+        subtitle.textContent = 'We detected you are viewing this page inside an app. Follow the steps below.';
+        platformHint.innerHTML = platform === 'ios' ? hints.ios : hints.android;
+      }
+
+      // Copy instructions to clipboard so user can paste into a message to themselves if needed
+      copBtn.addEventListener('click', function (){
+        var text = 'Open this link in your browser: ' + TARGET_URL + '\n\n' + platformHint.textContent;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function(){
+            copBtn.textContent = 'Copied';
+            setTimeout(function(){ copBtn.textContent = 'Show me where to tap'; },1400);
+          }).catch(function(){
+            copBtn.textContent = 'Copy failed';
+            setTimeout(function(){ copBtn.textContent = 'Show me where to tap'; },1400);
+          });
+        } else {
+          // fallback: show a prompt
+          window.prompt('Copy this link and open it in your browser:', TARGET_URL);
+        }
+      });
+
+      // Open anyway: attempt a user-initiated open
+      openBtn.addEventListener('click', function (){
+        // First try target _blank (user-initiated). Many in-app browsers will still handle it internally.
+        try {
+          var w = window.open(TARGET_URL, '_blank', 'noopener,noreferrer');
+          if (!w) {
+            // popup blocked or failed -> navigate in same window
+            window.location.href = TARGET_URL;
+          } else {
+            w.focus();
+          }
+        } catch (e) {
+          window.location.href = TARGET_URL;
+        }
+      });
+
+      // Make the mock three dots interactive for demonstration (tapping it will show short tooltip)
+      var threeMock = document.getElementById('threeDotsMock');
+      threeMock.addEventListener('click', function (){
+        alert('In your app: tap the menu (three dots) and choose "Open in browser".');
+      });
+
+      // Accessibility: focus the primary CTA for keyboard users
+      copBtn.focus();
+
+      // Small UX tweak: hide visual guides after user scrolls or after 12s
+      setTimeout(function(){ document.querySelector('.arrow').classList.add('hidden'); }, 12000);
+
+    })();
+  </script>
 </body>
-    <script>
-// Detect TikTok in-app browser
-function isInTikTokApp() {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    return /tiktok/i.test(userAgent) || 
-           /musically/i.test(userAgent) ||
-           /aweme/i.test(userAgent);
-}
-
-// Detect in-app browsers generally
-function isInAppBrowser() {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    const standalone = window.navigator.standalone;
-    const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
-    
-    // Common in-app browser indicators
-    const isInApp = /FBAN|FBAV|Twitter|Instagram|Line|WhatsApp|Snapchat|TikTok|musically|aweme/i.test(userAgent);
-    
-    // iOS specific check
-    if (isIOS && !standalone && isInApp) {
-        return true;
-    }
-    
-    return isInApp;
-}
-
-// Redirect to external browser
-function redirectToExternalBrowser() {
-    const currentUrl = encodeURIComponent(window.location.href);
-    
-    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-        // For iOS - try to open in Safari
-        window.location.href = `googlechrome://${window.location.href.replace(/^https?:\/\//, '')}`;
-        
-        // Fallback with delay
-        setTimeout(function() {
-            window.location.href = `x-web-search://?${currentUrl}`;
-        }, 500);
-        
-        // Final fallback
-        setTimeout(function() {
-            window.location.href = currentUrl;
-        }, 1000);
-    } else {
-        // For Android - try to open in Chrome
-        window.location.href = `intent://${window.location.href.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
-    }
-}
-
-// Execute on page load
-if (isInTikTokApp() || isInAppBrowser()) {
-    // Show a message and create a button
-    document.addEventListener('DOMContentLoaded', function() {
-        // Create overlay/message
-        const overlay = document.createElement('div');
-        overlay.innerHTML = `
-            <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; display:flex; justify-content:center; align-items:center; color:white; text-align:center; padding:20px;">
-                <div>
-                    <h2>For the best experience</h2>
-                    <p>Please open this link in your browser</p>
-                    <button id="openExternalBtn" style="background:#007AFF; color:white; border:none; padding:12px 24px; border-radius:8px; font-size:16px; cursor:pointer; margin:10px;">
-                        Open in Browser
-                    </button>
-                    <p style="font-size:14px; opacity:0.8; margin-top:20px;">Tap the menu (•••) in TikTok and select "Open in browser"</p>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(overlay);
-        
-        // Add click handler
-        document.getElementById('openExternalBtn').addEventListener('click', function() {
-            redirectToExternalBrowser();
-        });
-    });
-}
-</script>
 </html>
