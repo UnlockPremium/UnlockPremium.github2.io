@@ -48,44 +48,38 @@
     margin-bottom: 8px;
     line-height: 1.5;
   }
+  
+  .dots {
+    display: inline-block;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
 </style>
 </head>
 
 <body>
 
 <div class="box">
-  <h1>Open in Browser</h1>
+  <h1>🌐 Open in Browser</h1>
   <p>
-    This page is opened inside the TikTok app.<br>
-    To continue, please open it in your browser.
+    You're viewing this in TikTok's in-app browser.<br>
+    To access all features, open in Chrome or Safari.
   </p>
 
   <ol class="steps">
-    <li>Tap the <strong>three dots (⋮)</strong> at the top right</li>
+    <li>Tap the <span class="dots">•••</span> at the top right</li>
     <li>Select <strong>"Open in browser"</strong></li>
-    <li>Continue in Chrome or Safari</li>
+    <li>Choose <strong>Chrome</strong> or <strong>Safari</strong></li>
   </ol>
 
   <p style="margin-top:14px;font-size:13px;opacity:.7">
-    This is required to continue safely.
+    Required for full functionality.
   </p>
 </div>
 
-<script>
-  // Your landing page URL
-  const TARGET_URL = "https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion";
-  
-  // Function to detect TikTok browser
-  function isTikTokBrowser() {
-    const ua = navigator.userAgent.toLowerCase();
-    return ua.includes('tiktok') || ua.includes('musically') || ua.includes('aweme');
-  }
-  
-  // Check if we should show this page
-  if (!isTikTokBrowser()) {
-    // Not in TikTok - redirect to the actual page
-    window.location.href = TARGET_URL;
-  }
-</script>
 </body>
 </html>
