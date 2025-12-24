@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <title>Redirecting...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             margin: 0;
-            padding: 20px;
-            background: black;
+            padding: 0;
+            background: #000;
             color: white;
-            font-family: Arial;
+            font-family: Arial, sans-serif;
             text-align: center;
             min-height: 100vh;
             display: flex;
@@ -15,74 +18,93 @@
             align-items: center;
         }
         
-        .card {
-            background: #222;
+        .container {
             padding: 30px;
-            border-radius: 20px;
-            max-width: 320px;
-            border: 3px solid #00f2fe;
         }
         
-        .step {
-            background: #333;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 10px;
-            text-align: left;
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #333;
+            border-top: 3px solid #00f2fe;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
         }
         
-        .dots {
-            background: #00f2fe;
-            color: black;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-        
-        button {
-            background: #00f2fe;
-            color: black;
-            border: none;
-            padding: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            width: 100%;
-            border-radius: 10px;
-            margin: 15px 0;
-            cursor: pointer;
-        }
-        
-        .small {
-            font-size: 14px;
-            color: #888;
-            margin-top: 20px;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2>🌐 Open in Chrome/Safari</h2>
-        
-        <div class="step">
-            1. Tap <span class="dots">•••</span> at top
-        </div>
-        
-        <div class="step">
-            2. Select <b>"Open in browser"</b>
-        </div>
-        
-        <div class="step">
-            3. Choose <b>Chrome</b> or <b>Safari</b>
-        </div>
-        
-        <button onclick="window.location.href='https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion'">
-            OPEN IN BROWSER
-        </button>
-        
-        <div class="small">
-            TikTok's browser blocks features.<br>
-            Open in Chrome/Safari for full access.
-        </div>
+    <div class="container">
+        <div class="loader"></div>
+        <h2>Redirecting to Chrome/Safari...</h2>
+        <p>Opening your content in external browser...</p>
     </div>
+
+    <script>
+        // Your landing page URL
+        const landingPage = "https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion";
+        
+        // Function to open in external browser
+        function openExternalBrowser() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            const isIOS = /iphone|ipad|ipod/.test(userAgent);
+            const isAndroid = /android/.test(userAgent);
+            
+            // For iOS
+            if (isIOS) {
+                // Try Chrome first
+                window.location.href = "googlechromes://" + landingPage.replace('https://', '');
+                
+                // If Chrome not installed, this will fail and we'll redirect to Safari
+                setTimeout(function() {
+                    // Try Safari's custom scheme
+                    window.location.href = landingPage;
+                }, 100);
+                
+                // Final fallback - open in current browser
+                setTimeout(function() {
+                    window.location.href = landingPage;
+                }, 500);
+            }
+            
+            // For Android
+            else if (isAndroid) {
+                // Try Chrome via intent
+                window.location.href = "intent://" + landingPage.replace('https://', '') + "#Intent;scheme=https;package=com.android.chrome;end";
+                
+                // Fallback
+                setTimeout(function() {
+                    window.location.href = landingPage;
+                }, 100);
+            }
+            
+            // For desktop or other browsers
+            else {
+                window.location.href = landingPage;
+            }
+        }
+        
+        // Try to open immediately
+        openExternalBrowser();
+        
+        // If nothing happened after 1 second, show a message
+        setTimeout(function() {
+            document.body.innerHTML = `
+                <div style="padding:30px;max-width:400px;">
+                    <h2>Redirect Failed</h2>
+                    <p>Please tap the <b>•••</b> at top right and select "Open in browser"</p>
+                    <p>Or click this link: <a href="${landingPage}" style="color:#00f2fe;">${landingPage}</a></p>
+                    <button onclick="window.location.href='${landingPage}'" style="background:#00f2fe;color:black;border:none;padding:15px;border-radius:10px;margin:20px 0;width:100%;font-size:16px;font-weight:bold;">
+                        OPEN IN BROWSER
+                    </button>
+                </div>
+            `;
+        }, 1000);
+    </script>
 </body>
 </html>
