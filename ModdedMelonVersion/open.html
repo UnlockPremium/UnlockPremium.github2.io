@@ -78,52 +78,6 @@
     70% { box-shadow: 0 0 0 10px rgba(45,125,255,0); }
     100% { box-shadow: 0 0 0 0 rgba(45,125,255,0); }
   }
-
-  /* Optional: Add a button for trying to open in browser */
-  .try-button {
-    background: rgba(45,125,255,.2);
-    color: #fff;
-    border: 1px solid rgba(45,125,255,.4);
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-size: 14px;
-    margin-top: 20px;
-    cursor: pointer;
-    width: 100%;
-    transition: background 0.2s;
-  }
-
-  .try-button:hover {
-    background: rgba(45,125,255,.3);
-  }
-
-  .url-box {
-    margin-top: 20px;
-    padding: 12px;
-    background: rgba(255,255,255,.05);
-    border-radius: 8px;
-    font-size: 12px;
-    word-break: break-all;
-    text-align: left;
-  }
-
-  .url {
-    color: #2d7dff;
-    margin-top: 8px;
-    font-family: monospace;
-  }
-
-  .copy-btn {
-    background: rgba(255,255,255,.1);
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 12px;
-    margin-top: 10px;
-    cursor: pointer;
-    width: 100%;
-  }
 </style>
 </head>
 
@@ -149,18 +103,6 @@
     <li>Continue in Chrome or Safari</li>
   </ol>
 
-  <button class="try-button" id="openBtn">
-    Try Opening in Browser
-  </button>
-
-  <div class="url-box">
-    <div>Or copy this URL to paste in Chrome/Safari:</div>
-    <div class="url" id="urlText">https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion</div>
-    <button class="copy-btn" id="copyBtn">
-      Copy URL
-    </button>
-  </div>
-
   <p style="margin-top:14px;font-size:13px;opacity:.7">
     This is required for full functionality.
   </p>
@@ -170,85 +112,11 @@
   // Your landing page URL
   const TARGET_URL = "https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion";
   
-  // Show URL in the box
-  document.getElementById('urlText').textContent = TARGET_URL;
-  
   // Function to detect TikTok browser
   function isTikTokBrowser() {
     const ua = navigator.userAgent.toLowerCase();
     return ua.includes('tiktok') || ua.includes('musically') || ua.includes('aweme');
   }
-  
-  // Try to open in external browser
-  function openInExternalBrowser() {
-    const ua = navigator.userAgent.toLowerCase();
-    
-    // Change button text to indicate loading
-    const btn = document.getElementById('openBtn');
-    btn.textContent = 'Opening...';
-    btn.disabled = true;
-    
-    // For iOS
-    if (/iphone|ipad|ipod/.test(ua)) {
-      // Try Chrome first
-      window.location.href = "googlechromes://" + TARGET_URL.replace('https://', '');
-      
-      // Fallback to Safari if Chrome not installed
-      setTimeout(() => {
-        window.location.href = TARGET_URL;
-      }, 300);
-    }
-    // For Android
-    else if (/android/.test(ua)) {
-      // Try Chrome via intent
-      window.location.href = "intent://" + TARGET_URL.replace('https://', '') + "#Intent;scheme=https;package=com.android.chrome;end";
-      
-      // Fallback
-      setTimeout(() => {
-        window.location.href = TARGET_URL;
-      }, 300);
-    }
-    // For desktop or other
-    else {
-      window.location.href = TARGET_URL;
-    }
-    
-    // Reset button after 2 seconds
-    setTimeout(() => {
-      btn.textContent = 'Try Opening in Browser';
-      btn.disabled = false;
-    }, 2000);
-  }
-  
-  // Copy URL function
-  function copyUrl() {
-    const btn = document.getElementById('copyBtn');
-    const originalText = btn.textContent;
-    
-    navigator.clipboard.writeText(TARGET_URL).then(() => {
-      btn.textContent = 'Copied!';
-      setTimeout(() => {
-        btn.textContent = originalText;
-      }, 2000);
-    }).catch(() => {
-      // Fallback for older browsers
-      const textArea = document.createElement('textarea');
-      textArea.value = TARGET_URL;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textArea);
-      
-      btn.textContent = 'Copied!';
-      setTimeout(() => {
-        btn.textContent = originalText;
-      }, 2000);
-    });
-  }
-  
-  // Set up event listeners
-  document.getElementById('openBtn').addEventListener('click', openInExternalBrowser);
-  document.getElementById('copyBtn').addEventListener('click', copyUrl);
   
   // Check if we should show this page
   if (!isTikTokBrowser()) {
