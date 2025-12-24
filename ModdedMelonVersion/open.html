@@ -3,182 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Unlock - Best Experience in Browser</title>
+    <title>Open in Browser for Best Experience</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         body {
-            background: #000;
-            color: #fff;
-        }
-        
-        /* TikTok Warning Overlay */
-        .tiktok-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: linear-gradient(135deg, #000000, #1a1a2e);
             color: white;
-            display: none;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 40px 30px;
             text-align: center;
-            z-index: 10000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
         }
         
-        .tiktok-content {
-            max-width: 420px;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .tiktok-icon {
-            font-size: 48px;
+        .emoji {
+            font-size: 70px;
             margin-bottom: 20px;
+            animation: bounce 2s infinite;
         }
         
-        .tiktok-content h2 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #69C9D0;
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
         
-        .tiktok-content p {
+        h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #69C9D0, #EE1D52);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
             font-size: 16px;
-            line-height: 1.5;
-            margin-bottom: 25px;
             opacity: 0.9;
+            margin-bottom: 30px;
+            line-height: 1.5;
         }
         
-        .steps-container {
+        .steps {
             background: rgba(255, 255, 255, 0.08);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
             text-align: left;
         }
         
         .step {
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
-            padding: 10px;
-            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 12px;
             background: rgba(255, 255, 255, 0.05);
+            transition: transform 0.2s;
+        }
+        
+        .step:hover {
+            transform: translateX(5px);
+            background: rgba(105, 201, 208, 0.1);
         }
         
         .step:last-child {
             margin-bottom: 0;
         }
         
-        .step-number {
-            width: 30px;
-            height: 30px;
+        .step-icon {
+            width: 40px;
+            height: 40px;
             background: linear-gradient(45deg, #69C9D0, #EE1D52);
-            color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-right: 15px;
-            font-weight: bold;
             flex-shrink: 0;
+            font-weight: bold;
+            font-size: 18px;
         }
         
-        .step-text {
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #69C9D0;
+        }
+        
+        .step-description {
             font-size: 14px;
+            opacity: 0.8;
         }
         
         .highlight {
             background: rgba(105, 201, 208, 0.2);
             color: #69C9D0;
-            padding: 2px 6px;
-            border-radius: 4px;
+            padding: 2px 8px;
+            border-radius: 6px;
             font-weight: bold;
+            margin: 0 3px;
         }
         
-        .tiktok-btn {
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .primary-btn {
+            flex: 1;
             background: linear-gradient(45deg, #69C9D0, #EE1D52);
             color: white;
             border: none;
-            padding: 18px 40px;
-            font-size: 18px;
+            padding: 18px;
+            font-size: 16px;
             font-weight: 600;
             border-radius: 12px;
             cursor: pointer;
-            width: 100%;
-            margin: 20px 0;
-            transition: transform 0.2s;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         
-        .tiktok-btn:hover {
+        .primary-btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(105, 201, 208, 0.3);
         }
         
-        .tiktok-btn:active {
+        .primary-btn:active {
             transform: translateY(0);
         }
         
-        .url-container {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px dashed rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
+        .secondary-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 18px;
+            font-size: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .secondary-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .url-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
             padding: 15px;
             margin-top: 20px;
+            text-align: left;
+        }
+        
+        .url-label {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 8px;
         }
         
         .url-text {
             word-break: break-all;
-            font-size: 12px;
+            font-size: 13px;
+            font-family: monospace;
             color: #69C9D0;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         
         .copy-btn {
+            width: 100%;
             background: rgba(255, 255, 255, 0.1);
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 10px 20px;
+            padding: 12px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 14px;
-            width: 100%;
+            transition: background 0.2s;
         }
         
-        .skip-link {
-            color: rgba(255, 255, 255, 0.6);
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .note {
             font-size: 14px;
-            margin-top: 15px;
-            cursor: pointer;
-            text-decoration: underline;
+            opacity: 0.6;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        /* Your landing page content */
-        #landing-content {
-            min-height: 100vh;
-            background: #000;
-        }
-        
-        /* Iframe for your original page */
-        #main-iframe {
-            width: 100%;
-            height: 100vh;
-            border: none;
-            display: block;
-        }
-        
-        /* Loading animation */
         .loader {
             display: none;
             text-align: center;
@@ -198,63 +244,85 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .emoji {
+                font-size: 60px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .step {
+                padding: 12px;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- TikTok Warning Overlay -->
-    <div id="tiktokOverlay" class="tiktok-overlay">
-        <div class="tiktok-content">
-            <div class="tiktok-icon">🌐</div>
-            <h2>Open in Browser</h2>
-            <p>For best performance and full access to all features, please open this page in Chrome or Safari.</p>
-            
-            <div class="steps-container">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-text">Tap <span class="highlight">•••</span> at the top right corner</div>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-text">Select "<span class="highlight">Open in browser</span>"</div>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-text">Choose <span class="highlight">Chrome</span> or <span class="highlight">Safari</span></div>
+    <div class="container" id="mainContainer">
+        <div class="emoji">🌐</div>
+        <h1>Open in Browser</h1>
+        <p class="subtitle">For the best experience and full functionality, open this page in Chrome, Safari, or your preferred browser.</p>
+        
+        <div class="steps">
+            <div class="step">
+                <div class="step-icon">1</div>
+                <div class="step-content">
+                    <div class="step-title">Tap the Menu</div>
+                    <div class="step-description">Tap the <span class="highlight">•••</span> or <span class="highlight">Share</span> button at the top right corner of TikTok</div>
                 </div>
             </div>
             
-            <button id="openBtn" class="tiktok-btn">
-                OPEN IN BROWSER
-            </button>
-            
-            <div class="url-container">
-                <div class="url-text" id="currentUrl"></div>
-                <button onclick="copyUrl()" class="copy-btn">
-                    📋 COPY URL TO PASTE IN BROWSER
-                </button>
+            <div class="step">
+                <div class="step-icon">2</div>
+                <div class="step-content">
+                    <div class="step-title">Select "Open in Browser"</div>
+                    <div class="step-description">From the menu, choose <span class="highlight">"Open in browser"</span> or <span class="highlight">"Browser"</span> option</div>
+                </div>
             </div>
             
-            <div class="skip-link" onclick="hideTikTokOverlay()">
-                Continue in TikTok browser (limited features)
+            <div class="step">
+                <div class="step-icon">3</div>
+                <div class="step-content">
+                    <div class="step-title">Choose Your Browser</div>
+                    <div class="step-description">Select <span class="highlight">Chrome</span>, <span class="highlight">Safari</span>, or your preferred browser to continue</div>
+                </div>
             </div>
         </div>
+        
+        <div class="buttons">
+            <button class="primary-btn" onclick="openInBrowser()">
+                <span>🚀 OPEN IN BROWSER</span>
+            </button>
+            <button class="secondary-btn" onclick="copyUrl()">
+                <span>📋 COPY URL</span>
+            </button>
+        </div>
+        
+        <div class="url-box">
+            <div class="url-label">Or manually copy and paste this URL:</div>
+            <div class="url-text" id="currentUrl">Loading...</div>
+            <button class="copy-btn" onclick="copyUrl()">
+                📋 CLICK TO COPY URL
+            </button>
+        </div>
+        
+        <p class="note">TikTok's in-app browser may limit some features. For the full experience, please use Chrome or Safari.</p>
     </div>
-
-    <!-- Loader -->
-    <div id="loader" class="loader">
+    
+    <div class="loader" id="loader">
         <div class="loader-spinner"></div>
-        <p>Loading premium content...</p>
-    </div>
-
-    <!-- Your landing page iframe -->
-    <div id="landing-content">
-        <iframe 
-            id="main-iframe"
-            src="https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion"
-            title="Premium Unlock"
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-            loading="eager"
-        ></iframe>
+        <p>Redirecting to your content...</p>
     </div>
 
     <script>
@@ -263,125 +331,119 @@
         
         // Function to detect TikTok in-app browser
         function isTikTokBrowser() {
-            const userAgent = navigator.userAgent.toLowerCase();
-            const isTikTok = userAgent.includes('tiktok') || 
-                           userAgent.includes('musically') || 
-                           userAgent.includes('aweme');
+            const ua = navigator.userAgent.toLowerCase();
             
-            // Additional check for in-app browser
-            const isInApp = userAgent.includes('mobile') && 
-                           (userAgent.includes('safari') && !userAgent.includes('chrome')) ||
-                           (userAgent.includes('version/') && userAgent.includes('mobile'));
+            // Direct TikTok app detection
+            if (ua.includes('tiktok') || ua.includes('musically') || ua.includes('aweme')) {
+                return true;
+            }
             
-            return isTikTok || (isInApp && document.referrer.includes('tiktok'));
+            // Additional checks for in-app browsers
+            const isMobile = /mobile|android|iphone|ipad|ipod/i.test(ua);
+            const isInApp = ua.includes('version/') || 
+                           ua.includes('mobile safari') && !ua.includes('chrome') ||
+                           document.referrer.includes('tiktok.com');
+            
+            return isMobile && isInApp;
         }
         
-        // Function to try opening in external browser
-        function openInExternalBrowser() {
+        // Function to open in external browser
+        function openInBrowser() {
             const url = LANDING_PAGE_URL;
             
             // Show loading
+            document.getElementById('mainContainer').style.display = 'none';
             document.getElementById('loader').style.display = 'block';
             
-            // Different methods for iOS and Android
+            // Try different methods based on platform
             if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
                 // iOS - Try Chrome first
                 window.location.href = `googlechromes://${url.replace(/^https?:\/\//, '')}`;
                 
-                // Fallback after delay
+                // If Chrome is not installed, it will fall back to this after a delay
                 setTimeout(() => {
                     window.location.href = url;
-                }, 500);
+                }, 300);
             } else if (/Android/i.test(navigator.userAgent)) {
-                // Android - Intent for Chrome
-                window.location.href = `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(url)};end`;
+                // Android - Try Chrome intent
+                window.location.href = `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
                 
                 // Fallback
                 setTimeout(() => {
                     window.location.href = url;
-                }, 500);
+                }, 300);
             } else {
-                // Desktop or unknown - direct link
-                window.location.href = url;
+                // Desktop or other - direct link
+                window.open(url, '_blank');
             }
         }
         
-        // Copy URL function
+        // Function to copy URL to clipboard
         function copyUrl() {
             const url = LANDING_PAGE_URL;
-            navigator.clipboard.writeText(url).then(() => {
-                alert('✅ URL copied! Now paste it in Chrome or Safari browser.');
-            }).catch(() => {
+            
+            // Try modern clipboard API first
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url)
+                    .then(() => {
+                        showCopiedMessage();
+                    })
+                    .catch(err => {
+                        console.error('Clipboard error:', err);
+                        useFallbackCopy(url);
+                    });
+            } else {
                 // Fallback for older browsers
-                const textArea = document.createElement('textarea');
-                textArea.value = url;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                alert('✅ URL copied! Now paste it in Chrome or Safari browser.');
-            });
+                useFallbackCopy(url);
+            }
         }
         
-        // Hide overlay and show iframe
-        function hideTikTokOverlay() {
-            document.getElementById('tiktokOverlay').style.display = 'none';
-            document.getElementById('main-iframe').style.display = 'block';
+        // Fallback copy method
+        function useFallbackCopy(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showCopiedMessage();
+            } catch (err) {
+                alert('Please copy the URL manually: ' + text);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        // Show copied message
+        function showCopiedMessage() {
+            alert('✅ URL copied! Now open Chrome/Safari and paste the URL to access your content.');
         }
         
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            const overlay = document.getElementById('tiktokOverlay');
             const currentUrlElement = document.getElementById('currentUrl');
-            const openBtn = document.getElementById('openBtn');
-            const iframe = document.getElementById('main-iframe');
             
-            // Show current URL
+            // Display the URL
             currentUrlElement.textContent = LANDING_PAGE_URL;
             
-            // Check if in TikTok browser
+            // Check if we're in TikTok browser
             if (isTikTokBrowser()) {
-                // Show overlay
-                overlay.style.display = 'flex';
-                // Hide iframe initially
-                iframe.style.display = 'none';
-                
-                // Add click event to open button
-                openBtn.addEventListener('click', openInExternalBrowser);
-                
-                // Try to detect if user manually opened in browser
-                setTimeout(() => {
-                    // If still showing overlay after 3 seconds, the user is still in TikTok
-                    console.log('User is still in TikTok browser');
-                }, 3000);
+                // Show the instructions - we're already showing them
+                console.log('Detected TikTok browser - showing instructions');
             } else {
-                // Not in TikTok - hide overlay and show iframe
-                overlay.style.display = 'none';
-                iframe.style.display = 'block';
+                // NOT in TikTok browser - redirect immediately to the landing page
+                console.log('Not in TikTok browser - redirecting to:', LANDING_PAGE_URL);
+                window.location.href = LANDING_PAGE_URL;
             }
-            
-            // Handle iframe load
-            iframe.onload = function() {
-                document.getElementById('loader').style.display = 'none';
-            };
-            
-            // Handle iframe errors
-            iframe.onerror = function() {
-                document.getElementById('loader').style.display = 'none';
-                alert('Error loading content. Please try opening in Chrome or Safari.');
-            };
         });
         
-        // Additional detection on page visibility
-        document.addEventListener('visibilitychange', function() {
-            if (!document.hidden && isTikTokBrowser()) {
-                // Page became visible again - check if we should show overlay
-                if (!sessionStorage.getItem('tiktokOverlaySkipped')) {
-                    document.getElementById('tiktokOverlay').style.display = 'flex';
-                    document.getElementById('main-iframe').style.display = 'none';
-                }
-            }
-        });
+        // If user is already in a proper browser, they won't even see this page
+        // because it will redirect immediately to your landing page
     </script>
 </body>
 </html>
