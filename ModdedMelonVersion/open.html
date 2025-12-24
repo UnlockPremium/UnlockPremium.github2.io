@@ -4,48 +4,55 @@
     <style>
         body {
             margin: 0;
-            padding: 30px 20px;
-            background: #000;
+            padding: 20px;
+            background: black;
             color: white;
             font-family: Arial;
             text-align: center;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
-        .container {
-            max-width: 300px;
-            margin: 0 auto;
-        }
-        
-        h2 {
-            color: #69C9D0;
+        .card {
+            background: #222;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 320px;
+            border: 3px solid #00f2fe;
         }
         
         .step {
-            background: #222;
+            background: #333;
             padding: 15px;
+            margin: 10px 0;
             border-radius: 10px;
-            margin: 15px 0;
-            font-size: 16px;
             text-align: left;
         }
         
-        .step b {
-            color: #69C9D0;
+        .dots {
+            background: #00f2fe;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
         }
         
         button {
-            background: #69C9D0;
+            background: #00f2fe;
             color: black;
             border: none;
             padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
             width: 100%;
             border-radius: 10px;
-            font-weight: bold;
             margin: 15px 0;
             cursor: pointer;
         }
         
-        .note {
+        .small {
             font-size: 14px;
             color: #888;
             margin-top: 20px;
@@ -53,37 +60,29 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>🌐 Open in Browser</h2>
-        <p>For full features, open in Chrome/Safari:</p>
+    <div class="card">
+        <h2>🌐 Open in Chrome/Safari</h2>
         
-        <div class="step">1. Tap <b>•••</b> at top</div>
-        <div class="step">2. Select <b>"Open in browser"</b></div>
-        <div class="step">3. Choose <b>Chrome/Safari</b></div>
+        <div class="step">
+            1. Tap <span class="dots">•••</span> at top
+        </div>
         
-        <button onclick="openIt()">OPEN IN BROWSER</button>
+        <div class="step">
+            2. Select <b>"Open in browser"</b>
+        </div>
         
-        <div class="note">Copy URL if button doesn't work:<br>
-        https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion</div>
+        <div class="step">
+            3. Choose <b>Chrome</b> or <b>Safari</b>
+        </div>
+        
+        <button onclick="window.location.href='https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion'">
+            OPEN IN BROWSER
+        </button>
+        
+        <div class="small">
+            TikTok's browser blocks features.<br>
+            Open in Chrome/Safari for full access.
+        </div>
     </div>
-    
-    <script>
-        function openIt() {
-            const url = "https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion";
-            
-            if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-                window.location.href = "googlechromes://" + url.replace('https://', '');
-                setTimeout(() => window.location.href = url, 300);
-            } else {
-                window.location.href = "intent://" + url.replace('https://', '') + "#Intent;scheme=https;package=com.android.chrome;end";
-                setTimeout(() => window.location.href = url, 300);
-            }
-        }
-        
-        // If not TikTok, go to page
-        if (!navigator.userAgent.toLowerCase().includes('tiktok')) {
-            window.location.href = "https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion";
-        }
-    </script>
 </body>
 </html>
