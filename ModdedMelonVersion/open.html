@@ -2,28 +2,30 @@
 <html lang="en">
 <head>
 
-<!-- 🔴 CRITICAL: AGGRESSIVE IN-APP BROWSER BLOCK (FIRST SCRIPT) -->
+<!-- 🔴 CRITICAL: IN-APP BLOCK + OVERLAY (FIRST SCRIPT) -->
 <script>
 (function () {
   'use strict';
-
-  try {
-    document.documentElement.style.display = 'none';
-    if (document.body) document.body.style.display = 'none';
-  } catch (e) {}
 
   const ua = navigator.userAgent || '';
   const isInApp =
     /Instagram|FBAN|FBAV|FB_IAB|TikTok|musical_ly|com\.zhiliaoapp|Line|Snapchat|Pinterest|Twitter|WhatsApp|WeChat|MicroMessenger|okhttp/i.test(ua);
 
-  if (isInApp) {
-    try {
-      document.documentElement.innerHTML = '';
-      if (document.body) document.body.innerHTML = '';
-    } catch (e) {}
+  if (!isInApp) return;
 
-    const blocker = document.createElement('div');
-    blocker.style.cssText = `
+  /* Stop page rendering ASAP */
+  try {
+    document.documentElement.style.background = '#000';
+    document.documentElement.style.height = '100%';
+    document.documentElement.style.overflow = 'hidden';
+  } catch (e) {}
+
+  /* Wait for DOM shell, then inject overlay BEFORE nuking */
+  document.addEventListener('DOMContentLoaded', function () {
+
+    const overlay = document.createElement('div');
+    overlay.id = 'inapp-overlay';
+    overlay.style.cssText = `
       position:fixed;
       inset:0;
       background:#000;
@@ -35,47 +37,42 @@
       font-family:Arial,sans-serif;
     `;
 
-    blocker.innerHTML = `
+    overlay.innerHTML = `
       <div style="text-align:center;max-width:320px;padding:24px;">
         <h2 style="color:#00ffcc;margin-bottom:10px;">Open in Browser</h2>
-        <p style="opacity:.8;font-size:14px;line-height:1.5;">
-          This content cannot be opened inside this app.<br>
-          Tap <b>⋮</b> or <b>•••</b> and choose<br>
-          <b>Open in browser</b>
+        <p style="opacity:.85;font-size:14px;line-height:1.5;">
+          To continue, tap the menu<br>
+          <b>⋮</b> or <b>•••</b> at the top<br>
+          and choose <b>Open in browser</b>
         </p>
-        <div style="
-          margin:20px auto 0;
-          width:50px;
-          height:50px;
-          border:4px solid rgba(0,255,204,.3);
-          border-top-color:#00ffcc;
-          border-radius:50%;
-          animation:spin 1s linear infinite;
-        "></div>
+
+        <!-- GIF / ANIMATION -->
+        <img
+          src="https://i.imgur.com/8ZQZ5ZB.gif"
+          alt="Open in browser guide"
+          style="width:180px;margin-top:20px;border-radius:12px;"
+        />
       </div>
     `;
 
-    const style = document.createElement('style');
-    style.textContent = `@keyframes spin { to { transform: rotate(360deg); } }`;
-    document.head.appendChild(style);
-    document.documentElement.appendChild(blocker);
+    document.body.appendChild(overlay);
 
-    window.stop && window.stop();
-    throw new Error('In-app browser blocked');
-  }
-
-  try {
-    document.documentElement.style.display = '';
-    if (document.body) document.body.style.display = '';
-  } catch (e) {}
+    /* Hard-freeze page AFTER overlay is visible */
+    setTimeout(function () {
+      try {
+        document.body.innerHTML = '';
+        document.body.appendChild(overlay);
+        window.stop && window.stop();
+      } catch (e) {}
+    }, 50);
+  });
 })();
 </script>
 <!-- 🔴 END BLOCK -->
 
 <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Melon SandBox modded</title>
+<title>Melon Sandbox Modded</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -83,62 +80,33 @@
 
 <style>
 body {
-    background-color: #222736;
-    font-family: 'Kanit', sans-serif;
-    margin: 0;
-    padding: 0;
+  margin:0;
+  font-family:'Kanit',sans-serif;
+  background:#222736;
 }
-* { box-sizing: border-box; }
 .bg {
-    padding: 20px;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 .main {
-    box-shadow: 0 3px 20px rgba(0,0,0,.15);
-    background: linear-gradient(135deg,#2a3042,#1c2233);
-    padding: 30px;
-    max-width: 420px;
-    width: 100%;
-    border-radius: 15px;
-    text-align: center;
-}
-.logo {
-    width: 120px;
-    height: 120px;
-    border-radius: 20px;
-    border: 3px solid #1ac6ff;
-    padding: 5px;
-    background: #2a3042;
-    margin-bottom: 20px;
-}
-button {
-    all: unset;
-    background: linear-gradient(90deg,#1ac6ff,#4d5bce);
-    color: #fff;
-    padding: 12px 40px;
-    border-radius: 30px;
-    cursor: pointer;
-    margin-top: 20px;
+  background:#1c2233;
+  padding:30px;
+  border-radius:15px;
+  text-align:center;
 }
 </style>
 
 </head>
-
 <body>
+
 <div class="bg">
   <div class="main">
-    <img class="logo" src="images/mOGIJei.png" alt="Melon Sandbox Logo">
     <h1 style="color:#fff">Melon Sandbox Modded</h1>
     <p style="color:#a6b0cf">Unlock all premium features and mods for free!</p>
-
-    <button onclick="window.open('https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion/HumanVerification.html?key=8589d','_blank')">
-      DOWNLOAD NOW
-    </button>
   </div>
 </div>
+
 </body>
 </html>
-
