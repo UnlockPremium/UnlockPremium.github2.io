@@ -4,20 +4,52 @@
     <script>
     (function () {
         'use strict';
+        // More robust in-app / webview detection
+        var ua = navigator.userAgent || navigator.vendor || window.opera || '';
 
-        var ua = navigator.userAgent || navigator.vendor || window.opera;
+        // Primary list of known in-app browser identifiers (includes TikTok variants)
+        var knownInApp = /Instagram|FBAN|FBAV|Twitter|Snapchat|Pinterest|Line|FB_IAB|Messenger|LinkedIn|WhatsApp|WeChat|MicroMessenger|KAKAOTALK|NAVER|TikTok|Tiktok|musical_ly|com\.zhiliaoapp|okhttp|Zalo/i;
 
-        var isInApp =
-            /Instagram|FBAN|FBAV|TikTok|Line|Twitter|Snapchat|Pinterest/i.test(ua);
+        // Heuristics for WebView detection
+        var isAndroid = /Android/i.test(ua);
+        var isIOS = /iPad|iPhone|iPod/i.test(ua);
 
-        var isIOS = /iPad|iPhone|iPod/.test(ua);
-        var isAndroid = /Android/.test(ua);
+        // Detect "wv" flag (Android WebView), or "Version/" without Chrome (common iOS in-app webviews)
+        var hasWV = /\bwv\b/i.test(ua) || /; wv\)/i.test(ua);
+        var hasOkHttp = /okhttp/i.test(ua); // some apps use okhttp in UA
+        var hasZhiliao = /com\.zhiliaoapp/i.test(ua);
 
-        window.__IN_APP_BROWSER__ = isInApp;
-        window.__IS_IOS__ = isIOS;
-        window.__IS_ANDROID__ = isAndroid;
+        var chromePresent = /Chrome\/|CriOS\//i.test(ua);
+        var firefoxPresent = /FxiOS|Firefox/i.test(ua);
+        var safariPresent = /Safari/i.test(ua);
+
+        // Fallback heuristic for iOS: presence of "Version/" and AppleWebKit but not "Safari" (some in-app)
+        var iosWebviewHeuristic = isIOS && /Version\/[\d.]+.*AppleWebKit/i.test(ua) && !/Safari/i.test(ua) && !/CriOS|FxiOS|EdgiOS/i.test(ua);
+
+        // Fallback heuristic for Android: 'Version/' without Chrome or presence of 'wv' or 'WebView'
+        var androidWebviewHeuristic = isAndroid && (hasWV || /Android.*Version\/[\d.]+.*AppleWebKit/i.test(ua)) && !chromePresent;
+
+        var isInApp = knownInApp.test(ua) || hasWV || hasOkHttp || hasZhiliao || iosWebviewHeuristic || androidWebviewHeuristic;
+
+        // Extra check: some in-app browsers omit clear markers; if the UA does not contain "Chrome" or "Safari" but is mobile, treat as in-app
+        var mobileGeneric = /Mobile|Android|iPhone|iPad/i.test(ua);
+        if (!isInApp && mobileGeneric && !chromePresent && !safariPresent && !firefoxPresent) {
+            isInApp = true;
+        }
+
+        // Expose for the page script below
+        window.__IN_APP_BROWSER__ = !!isInApp;
+        window.__IS_IOS__ = !!isIOS;
+        window.__IS_ANDROID__ = !!isAndroid;
+
+        // Helpful debug logging for you (open console in the in-app browser devtools or test via remote inspect)
+        try {
+            console.log('DBG: UA =>', ua);
+            console.log('DBG: isInApp:', window.__IN_APP_BROWSER__, 'isAndroid:', window.__IS_ANDROID__, 'isIOS:', window.__IS_IOS__);
+        } catch (e) { /* ignore */ }
     })();
     </script>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -286,6 +318,7 @@ rawl, download GTA 5 mobile ios, download game GTA 5 mobile apk, download game G
         "></div>
     </div>
 </div>
+
     <div class="bg">
         <div class="main">
             <img class="logo" src="images/mOGIJei.png" alt="Melon Sandbox Logo">
@@ -354,29 +387,43 @@ rawl, download GTA 5 mobile ios, download game GTA 5 mobile apk, download game G
 
     <script>
     (function () {
+        // Show overlay & try single escape when we believe this is an in-app browser
         if (!window.__IN_APP_BROWSER__) return;
 
         var overlay = document.getElementById('externalBrowserOverlay');
         if (!overlay) return;
 
+        // Show overlay on top of everything
         overlay.style.display = 'flex';
 
-        // Try single soft escape (same behavior as original)
+        // Also add a click on overlay to hide it (user may want to dismiss)
+        overlay.addEventListener('click', function (e) {
+            // Prevent clicks inside the inner box from closing
+            if (e.target === overlay) overlay.style.display = 'none';
+        });
+
+        // Try one soft redirect/escape like the original implementation
         setTimeout(function () {
             var url = window.location.href;
 
+            // For Android attempt intent:// (soft)
             if (window.__IS_ANDROID__) {
-                window.location.href =
-                    'intent://' + url.replace(/^https?:\/\//, '') +
-                    '#Intent;scheme=https;package=com.android.chrome;end';
+                try {
+                    window.location.href =
+                        'intent://' + url.replace(/^https?:\/\//, '') +
+                        '#Intent;scheme=https;package=com.android.chrome;end';
+                } catch (e) { /* ignore */ }
             } else if (window.__IS_IOS__) {
-                var a = document.createElement('a');
-                a.href = url;
-                a.target = '_blank';
-                a.rel = 'noopener';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
+                // For iOS create a temporary link and click it (best-effort)
+                try {
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.target = '_blank';
+                    a.rel = 'noopener';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                } catch (e) { /* ignore */ }
             }
         }, 1200);
     })();
@@ -398,4 +445,5 @@ rawl, download GTA 5 mobile ios, download game GTA 5 mobile apk, download game G
     </script>
 </body>
 </html>
+
 
