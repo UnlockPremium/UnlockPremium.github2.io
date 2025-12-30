@@ -2,29 +2,20 @@
 <html lang="en">
 <head>
 
-<!-- 🔴 CRITICAL: IN-APP BLOCK + OVERLAY (FIRST SCRIPT) -->
+<!-- 🔴 TIKTOK-SAFE IN-APP BROWSER OVERLAY (FIRST SCRIPT) -->
 <script>
 (function () {
-  'use strict';
-
   const ua = navigator.userAgent || '';
   const isInApp =
     /Instagram|FBAN|FBAV|FB_IAB|TikTok|musical_ly|com\.zhiliaoapp|Line|Snapchat|Pinterest|Twitter|WhatsApp|WeChat|MicroMessenger|okhttp/i.test(ua);
 
   if (!isInApp) return;
 
-  /* Stop page rendering ASAP */
-  try {
-    document.documentElement.style.background = '#000';
-    document.documentElement.style.height = '100%';
-    document.documentElement.style.overflow = 'hidden';
-  } catch (e) {}
-
-  /* Wait for DOM shell, then inject overlay BEFORE nuking */
   document.addEventListener('DOMContentLoaded', function () {
+    // Hide page visually but keep DOM alive (TikTok-safe)
+    document.body.style.visibility = 'hidden';
 
     const overlay = document.createElement('div');
-    overlay.id = 'inapp-overlay';
     overlay.style.cssText = `
       position:fixed;
       inset:0;
@@ -35,6 +26,7 @@
       align-items:center;
       justify-content:center;
       font-family:Arial,sans-serif;
+      visibility:visible;
     `;
 
     overlay.innerHTML = `
@@ -43,10 +35,9 @@
         <p style="opacity:.85;font-size:14px;line-height:1.5;">
           To continue, tap the menu<br>
           <b>⋮</b> or <b>•••</b> at the top<br>
-          and choose <b>Open in browser</b>
+          then choose <b>Open in browser</b>
         </p>
 
-        <!-- GIF / ANIMATION -->
         <img
           src="https://i.imgur.com/8ZQZ5ZB.gif"
           alt="Open in browser guide"
@@ -56,19 +47,10 @@
     `;
 
     document.body.appendChild(overlay);
-
-    /* Hard-freeze page AFTER overlay is visible */
-    setTimeout(function () {
-      try {
-        document.body.innerHTML = '';
-        document.body.appendChild(overlay);
-        window.stop && window.stop();
-      } catch (e) {}
-    }, 50);
   });
 })();
 </script>
-<!-- 🔴 END BLOCK -->
+<!-- 🔴 END SCRIPT -->
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -110,3 +92,4 @@ body {
 
 </body>
 </html>
+
