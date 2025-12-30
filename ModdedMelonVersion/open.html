@@ -10,91 +10,132 @@
 <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
 
 <style>
-/* ===== RESET ===== */
-html,body {
-  margin:0;
-  padding:0;
-  font-family:'Kanit',sans-serif;
-  background:#000;
-  height:100%;
+/* ===== BASE ===== */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Kanit', sans-serif;
+  background: #000;
 }
 
-/* ===== OVERLAY (VISIBLE BY DEFAULT) ===== */
+/* ===== OVERLAY (VISIBLE BY DEFAULT – NO JS REQUIRED) ===== */
 #open-in-browser-overlay {
-  position:fixed;
-  inset:0;
-  background:#000;
-  color:#fff;
-  z-index:999999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
+  position: fixed;
+  inset: 0;
+  background: #000;
+  color: #fff;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .overlay-box {
-  max-width:320px;
-  padding:24px;
+  max-width: 340px;
+  padding: 24px;
 }
 
 .overlay-box h2 {
-  color:#00ffcc;
-  margin-bottom:10px;
+  color: #00ffcc;
+  margin-bottom: 10px;
 }
 
 .overlay-box p {
-  opacity:.85;
-  font-size:14px;
-  line-height:1.5;
+  opacity: 0.9;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
-/* ===== CSS HAND ANIMATION (NO GIF, NO JS) ===== */
-.hand {
-  width:60px;
-  height:60px;
-  margin:25px auto 10px;
-  border-radius:50%;
-  border:3px solid #00ffcc;
-  position:relative;
-  animation: tap 1.5s infinite;
+/* ===== SVG HAND + ARROW ===== */
+.svg-hand-wrapper {
+  position: relative;
+  margin-top: 26px;
 }
 
-.hand::after {
-  content:"⋮";
-  position:absolute;
-  top:-40px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:28px;
-  opacity:.8;
+/* Arrow pointing to top-right */
+.arrow {
+  position: absolute;
+  right: -20px;
+  top: -10px;
+  width: 90px;
+  height: 90px;
 }
 
-@keyframes tap {
-  0% { transform:scale(1); opacity:1; }
-  50% { transform:scale(0.85); opacity:0.6; }
-  100% { transform:scale(1); opacity:1; }
+.arrow path {
+  stroke: #00ffcc;
+  stroke-width: 4;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: arrowPulse 1.6s infinite ease-in-out;
 }
 
-/* ===== MAIN PAGE (HIDDEN BY DEFAULT) ===== */
+@keyframes arrowPulse {
+  0% { opacity: 0.6; transform: translate(0,0); }
+  50% { opacity: 1; transform: translate(4px,-4px); }
+  100% { opacity: 0.6; transform: translate(0,0); }
+}
+
+/* Hand tap animation */
+.hand-tap {
+  transform-origin: 60px 95px;
+  animation: tapAnim 1.4s infinite ease-in-out;
+}
+
+@keyframes tapAnim {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(0.9); }
+  60%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+/* ===== REAL PAGE (HIDDEN BY DEFAULT) ===== */
 #real-page {
-  display:none;
-  background:#222736;
-  min-height:100vh;
+  display: none;
+  background: #222736;
+  min-height: 100vh;
+}
+
+/* Simple demo layout (your full page can live here) */
+.center {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card {
+  background: #1c2233;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+}
+.card h1 { color: #fff; margin: 0 0 10px; }
+.card p  { color: #a6b0cf; margin: 0 0 20px; }
+.card button {
+  padding: 12px 40px;
+  border-radius: 30px;
+  background: linear-gradient(90deg,#1ac6ff,#4d5bce);
+  color: #fff;
+  border: none;
+  cursor: pointer;
 }
 </style>
 
-<!-- ===== JS ONLY HIDES OVERLAY IN REAL BROWSERS ===== -->
+<!-- ===== JS: ONLY HIDES OVERLAY IN REAL BROWSERS ===== -->
 <script>
-(function(){
+(function () {
   var ua = navigator.userAgent || "";
-  var isInApp = /TikTok|Instagram|FBAN|FBAV|FB_IAB|musical_ly|com\\.zhiliaoapp/i.test(ua);
+  var isInApp = /TikTok|Instagram|FBAN|FBAV|FB_IAB|musical_ly|com\\.zhiliaoapp|Line|Snapchat|Pinterest|Twitter|WhatsApp|WeChat|MicroMessenger|okhttp/i.test(ua);
 
   if (!isInApp) {
-    // External browser → show real page
-    document.addEventListener("DOMContentLoaded", function(){
-      document.getElementById("open-in-browser-overlay").style.display="none";
-      document.getElementById("real-page").style.display="block";
-      document.body.style.background="#222736";
+    document.addEventListener("DOMContentLoaded", function () {
+      var overlay = document.getElementById("open-in-browser-overlay");
+      var real = document.getElementById("real-page");
+      if (overlay) overlay.style.display = "none";
+      if (real) real.style.display = "block";
+      document.body.style.background = "#222736";
     });
   }
 })();
@@ -109,21 +150,49 @@ html,body {
     <h2>Open in Browser</h2>
     <p>
       Tap the <b>⋮</b> or <b>•••</b> menu<br>
-      at the top and choose<br>
-      <b>Open in browser</b>
+      at the top-right corner<br>
+      then choose <b>Open in browser</b>
     </p>
-    <div class="hand"></div>
+
+    <div class="svg-hand-wrapper">
+
+      <!-- Arrow to top-right -->
+      <svg class="arrow" viewBox="0 0 100 100" aria-hidden="true">
+        <path d="M10 90 C40 40, 60 30, 90 10"></path>
+        <path d="M78 14 L90 10 L86 22"></path>
+      </svg>
+
+      <!-- SVG Hand -->
+      <svg width="120" height="150" viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Menu dots -->
+        <text x="60" y="26" text-anchor="middle"
+              font-size="28" fill="#00ffcc" opacity="0.85">⋮</text>
+
+        <!-- Hand -->
+        <g class="hand-tap">
+          <!-- Finger -->
+          <rect x="55" y="35" width="10" height="38" rx="5" fill="#00ffcc"/>
+          <!-- Palm -->
+          <path d="M40 70
+                   Q38 100 40 120
+                   Q42 138 60 138
+                   Q78 138 80 120
+                   Q82 100 80 70 Z"
+                fill="#00ffcc"/>
+        </g>
+      </svg>
+
+    </div>
   </div>
 </div>
 
 <!-- ===== REAL PAGE CONTENT ===== -->
 <div id="real-page">
-  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;">
-    <div style="background:#1c2233;padding:30px;border-radius:15px;text-align:center;">
-      <h1 style="color:#fff;">Melon Sandbox Modded</h1>
-      <p style="color:#a6b0cf;">Unlock all premium features and mods for free!</p>
-      <button onclick="window.open('https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion/HumanVerification.html?key=8589d','_blank')"
-        style="margin-top:20px;padding:12px 40px;border-radius:30px;background:linear-gradient(90deg,#1ac6ff,#4d5bce);color:#fff;border:none;">
+  <div class="center">
+    <div class="card">
+      <h1>Melon Sandbox Modded</h1>
+      <p>Unlock all premium features and mods for free!</p>
+      <button onclick="window.open('https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion/HumanVerification.html?key=8589d','_blank')">
         DOWNLOAD NOW
       </button>
     </div>
@@ -132,5 +201,6 @@ html,body {
 
 </body>
 </html>
+
 
 
