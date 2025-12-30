@@ -303,55 +303,55 @@ rawl, download GTA 5 mobile ios, download game GTA 5 mobile apk, download game G
         });
     </script>
 
-<!-- START: TikTok in-app "Open in Browser" overlay (injected) -->
+<!-- START: In-App Browser "Open in Browser" overlay -->
 <style>
   /* Overlay base */
-  #tiktok-overlay {
+  #open-in-browser-overlay {
     position: fixed;
     inset: 0;
     z-index: 2147483647;
     display: none;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(180deg, rgba(0,0,0,0.75), rgba(0,0,0,0.85));
+    background: linear-gradient(180deg, rgba(0,0,0,0.78), rgba(0,0,0,0.88));
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-    color: #ffffff;
-    padding: 20px;
+    color: #fff;
+    padding: 18px;
     box-sizing: border-box;
     font-family: 'Kanit', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   }
 
-  #tiktok-overlay .card {
+  #open-in-browser-overlay .card {
     width: 100%;
-    max-width: 520px;
+    max-width: 540px;
     background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
     border-radius: 14px;
     padding: 22px;
     text-align: center;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
     border: 1px solid rgba(255,255,255,0.04);
   }
 
-  #tiktok-overlay h2 {
-    margin: 0 0 8px 0;
+  #open-in-browser-overlay h2 {
+    margin: 0 0 8px;
     font-size: 20px;
     letter-spacing: 0.2px;
+    color: #fff;
   }
 
-  #tiktok-overlay p {
-    margin: 0 0 18px 0;
-    color: rgba(255,255,255,0.88);
+  #open-in-browser-overlay p {
+    margin: 0 0 16px;
+    color: rgba(255,255,255,0.9);
     font-size: 15px;
     line-height: 1.4;
   }
 
-  /* Animated phone/arrow */
   .phone-anim {
     width: 120px;
     height: 160px;
     border-radius: 18px;
-    margin: 0 auto 16px auto;
+    margin: 0 auto 14px;
     background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
     position: relative;
     border: 2px solid rgba(255,255,255,0.06);
@@ -382,16 +382,13 @@ rawl, download GTA 5 mobile ios, download game GTA 5 mobile apk, download game G
     animation: pulse 1.4s ease-in-out infinite;
     box-shadow: 0 8px 22px rgba(26,198,255,0.12);
   }
-  .arrow svg { transform: translateY(0); }
-
   @keyframes pulse {
     0% { transform: scale(1); opacity: 1; }
     50% { transform: scale(1.12); opacity: 0.95; }
     100% { transform: scale(1); opacity: 1; }
   }
 
-  /* Open button */
-  #tiktok-open-btn {
+  #open-in-browser-btn {
     -webkit-appearance: none;
     appearance: none;
     border: none;
@@ -405,113 +402,173 @@ rawl, download GTA 5 mobile ios, download game GTA 5 mobile apk, download game G
     box-shadow: 0 8px 28px rgba(26,198,255,0.12);
   }
 
-  #tiktok-overlay .muted {
+  #open-in-browser-overlay .muted {
     margin-top: 10px;
     font-size: 13px;
-    color: rgba(255,255,255,0.75);
+    color: rgba(255,255,255,0.78);
   }
 
   /* Prevent interaction with page behind when overlay shown */
-  html.tiktok-block, body.tiktok-block {
+  html.open-browser-block, body.open-browser-block {
     touch-action: none;
     -webkit-user-select: none;
     user-select: none;
     pointer-events: none;
   }
-  html.tiktok-block #tiktok-overlay, body.tiktok-block #tiktok-overlay {
+  html.open-browser-block #open-in-browser-overlay,
+  body.open-browser-block #open-in-browser-overlay {
     pointer-events: auto;
   }
 
   @media (max-width: 480px) {
-    #tiktok-overlay .card { padding: 18px; }
+    #open-in-browser-overlay .card { padding: 18px; }
     .phone-anim { width: 96px; height: 132px; }
   }
 </style>
 
-<div id="tiktok-overlay" aria-hidden="true" role="dialog" aria-label="Open in browser overlay">
+<div id="open-in-browser-overlay" aria-hidden="true" role="dialog" aria-label="Open in browser overlay">
   <div class="card" role="document">
     <div class="phone-anim" aria-hidden="true">
       <div class="arrow" aria-hidden="true">
-        <!-- simple arrow icon -->
+        <!-- arrow icon -->
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M12 5v14M5 12h14" stroke="#012" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
     </div>
 
-    <h2>Open this page in your browser</h2>
+    <h2>Open this page in your device browser</h2>
     <p>For the best experience, open this page in your device browser (Chrome, Safari). Tap the button below to attempt opening externally.</p>
-    <button id="tiktok-open-btn" type="button">Open in browser</button>
-    <div class="muted">If that doesn't work: tap the menu (⋯) → "Open in Browser".</div>
+    <button id="open-in-browser-btn" type="button">Open in browser</button>
+    <div class="muted">If that doesn't work: open the menu (⋯ or Share) and choose "Open in Browser" or "Open in Safari / Chrome".</div>
   </div>
 </div>
 
 <script>
 (function(){
-  // Robust TikTok in-app browser detection patterns
-  var ua = navigator.userAgent || navigator.vendor || window.opera || '';
-  var isTikTok = /TikTok|tiktok|musically|zhiliaoapp/i.test(ua);
+  // Detect common in-app webviews (best-effort)
+  var ua = (navigator.userAgent || navigator.vendor || window.opera || '').toLowerCase();
 
-  var overlay = document.getElementById('tiktok-overlay');
-  function show() {
+  // Patterns to consider in-app browsers (TikTok, Instagram, Facebook, Twitter, Snapchat, Messengers...)
+  var inAppPatterns = [
+    /tiktok/i,
+    /zhiliaoapp/i,
+    /instagram/i,
+    /fbav/i,        // Facebook in-app (Android)
+    /fban/i,        // Facebook in-app
+    /fb_iab/i,
+    /facebook/i,
+    /messenger/i,
+    /twitter/i,
+    /twit/i,
+    /snapchat/i,
+    /line/i,
+    /weibo/i,
+    /pinterest/i,
+    /wechat/i,
+    /okhttp/i,      // some Android webviews
+    /wv\)/i         // " wv)" substrings (Android system webview)
+  ];
+
+  function looksLikeInAppBrowser(userAgent) {
+    // if running as a standalone PWA, treat as non in-app
+    if (navigator.standalone === true) return false;
+    // Check UA patterns
+    for (var i=0;i<inAppPatterns.length;i++){
+      if (inAppPatterns[i].test(userAgent)) return true;
+    }
+    // Heuristic: many embedded webviews expose "wv" or "android" and do not include "chrome/" or "safari/"
+    if (/\bwv\b/i.test(userAgent) || /\bwebview\b/i.test(userAgent)) return true;
+    return false;
+  }
+
+  var overlay = document.getElementById('open-in-browser-overlay');
+  var openBtn = document.getElementById('open-in-browser-btn');
+
+  function showOverlay(){
     if (!overlay) return;
     overlay.style.display = 'flex';
-    document.documentElement.classList.add('tiktok-block');
-    document.body.classList.add('tiktok-block');
+    document.documentElement.classList.add('open-browser-block');
+    document.body.classList.add('open-browser-block');
     overlay.setAttribute('aria-hidden','false');
   }
-  function hide() {
+
+  function hideOverlay(){
     if (!overlay) return;
     overlay.style.display = 'none';
-    document.documentElement.classList.remove('tiktok-block');
-    document.body.classList.remove('tiktok-block');
+    document.documentElement.classList.remove('open-browser-block');
+    document.body.classList.remove('open-browser-block');
     overlay.setAttribute('aria-hidden','true');
   }
 
-  // Only show the overlay if we are inside TikTok's webview
-  if (isTikTok) {
-    show();
-  } else {
-    hide();
+  function checkAndMaybeShow() {
+    var uaNow = navigator.userAgent || navigator.vendor || window.opera || '';
+    var isInApp = looksLikeInAppBrowser(uaNow);
+    if (isInApp) {
+      showOverlay();
+    } else {
+      hideOverlay();
+    }
   }
 
-  // Try to open externally when the user clicks the button.
-  // We do NOT force a redirect; we attempt a best-effort open and leave the overlay visible.
-  var btn = document.getElementById('tiktok-open-btn');
-  if (btn) {
-    btn.addEventListener('click', function(){
+  // Initial check on load
+  checkAndMaybeShow();
+
+  // When page visibility changes (user might have opened external browser), re-check UA
+  document.addEventListener('visibilitychange', function(){
+    // small delay to allow embedding app to update state/close
+    setTimeout(checkAndMaybeShow, 250);
+  });
+
+  // On focus (user returns), re-check UA
+  window.addEventListener('focus', function(){
+    setTimeout(checkAndMaybeShow, 250);
+  });
+
+  // Button click: best-effort to open externally without forcing redirect
+  if (openBtn) {
+    openBtn.addEventListener('click', function(e){
+      e.preventDefault();
       var loc = window.location.href;
-      // Provide an Android intent approach first (works in many webviews)
+
+      // Android: try intent scheme (many webviews honor it)
       try {
         var hostAndPath = window.location.hostname + window.location.pathname + window.location.search;
         var intentUrl = 'intent://' + hostAndPath + '#Intent;scheme=https;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;end';
-        // Attempt to navigate to intent. Some webviews will open external browser.
+        // Try to navigate to intent first (if webview supports it)
         window.location.href = intentUrl;
-        // Also open a new tab/window as fallback after a short delay.
-        setTimeout(function(){ try { window.open(loc, '_blank', 'noopener,noreferrer'); }catch(e){} }, 600);
-      } catch(e) {
-        try { window.open(loc, '_blank', 'noopener,noreferrer'); } catch(e){}
+      } catch(err) {
+        // ignore
       }
+
+      // Fallback: open new tab/window (if allowed)
+      setTimeout(function(){
+        try {
+          window.open(loc, '_blank', 'noopener,noreferrer');
+        } catch(e){}
+      }, 600);
+
+      // Also try programmatic link click for iOS/others
+      try {
+        var a = document.createElement('a');
+        a.href = loc;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function(){ if (document.body.contains(a)) document.body.removeChild(a); }, 200);
+      } catch(e){}
     }, {passive:true});
   }
 
-  // If the page becomes visible again, re-check UA and hide overlay if not TikTok.
-  document.addEventListener('visibilitychange', function(){
-    var uaNow = navigator.userAgent || '';
-    if (!/TikTok|tiktok|musically|zhiliaoapp/i.test(uaNow)) {
-      hide();
-    }
-  });
+  // Defensive: some webviews change UA at runtime; re-check after a short interval a few times
+  var retries = 0;
+  var retryInterval = setInterval(function(){
+    checkAndMaybeShow();
+    retries++;
+    if (retries > 8) clearInterval(retryInterval);
+  }, 1200);
 
-  // Additionally, re-check on load (some webviews mutate UA later)
-  window.addEventListener('load', function(){
-    var uaNow = navigator.userAgent || '';
-    if (!/TikTok|tiktok|musically|zhiliaoapp/i.test(uaNow)) {
-      hide();
-    }
-  });
-})();
-</script>
-<!-- END: TikTok overlay -->
-</body>
-</html>
+  // Expose a manual hide for debug (not necessary in produc
+
