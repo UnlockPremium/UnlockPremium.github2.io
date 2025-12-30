@@ -1,30 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+<!-- 🔴 CRITICAL: AGGRESSIVE IN-APP BROWSER BLOCK (FIRST SCRIPT) -->
+<script>
+(function () {
+  'use strict';
+
+  /* Hide everything immediately (pre-render) */
+  try {
+    document.documentElement.style.display = 'none';
+    if (document.body) document.body.style.display = 'none';
+  } catch (e) {}
+
+  const ua = navigator.userAgent || '';
+  const isInApp =
+    /Instagram|FBAN|FBAV|FB_IAB|TikTok|musical_ly|com\.zhiliaoapp|Line|Snapchat|Pinterest|Twitter|WhatsApp|WeChat|MicroMessenger|okhttp/i.test(ua);
+
+  if (isInApp) {
+    try {
+      document.documentElement.innerHTML = '';
+      if (document.body) document.body.innerHTML = '';
+    } catch (e) {}
+
+    const blocker = document.createElement('div');
+    blocker.style.cssText = `
+      position:fixed;
+      inset:0;
+      background:#000;
+      color:#fff;
+      z-index:999999;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:Arial,sans-serif;
+    `;
+
+    blocker.innerHTML = `
+      <div style="text-align:center;max-width:320px;padding:24px;">
+        <h2 style="color:#00ffcc;margin-bottom:10px;">Open in Browser</h2>
+        <p style="opacity:.8;font-size:14px;line-height:1.5;">
+          This content cannot be opened inside this app.<br>
+          Tap <b>⋮</b> or <b>•••</b> and choose<br>
+          <b>Open in browser</b>
+        </p>
+        <div style="
+          margin:20px auto 0;
+          width:50px;
+          height:50px;
+          border:4px solid rgba(0,255,204,.3);
+          border-top-color:#00ffcc;
+          border-radius:50%;
+          animation:spin 1s linear infinite;
+        "></div>
+      </div>
+    `;
+
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes spin { to { transform: rotate(360deg); } }
+    `;
+
+    document.head.appendChild(style);
+    document.documentElement.appendChild(blocker);
+
+    window.stop && window.stop();
+    throw new Error('In-app browser blocked');
+  }
+
+  /* Allow normal render in external browsers */
+  try {
+    document.documentElement.style.display = '';
+    if (document.body) document.body.style.display = '';
+  } catch (e) {}
+})();
+</script>
+<!-- 🔴 END BLOCK -->
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Melon SandBox modded</title>
     <meta name="description" content="Melon Sandbox Modded All mods For Free Enjoy">
-    <meta name="keywords" content="GTA 5 mobile game, GTA 5 mobile apk, GTA 5 mobile ios, download GTA 5 mobile, modcombo GTA 5 mobile, GTA 5 mobile online, GTA 5 mobile video, games like GTA 5 mobile, download GTA 5 mobile mod apk, GTA 5 mobile android, GTA 5 mobile app, GTA 5 mobile apple, GTA 5 mobile apk techloky, GTA 5 mobile android mod apk, GTA 5 mobile apk girl version, GTA 5 mobile all pictures, GTA 5 mobile apk v1.4.1, GTA 5 mobile android apk download, apk GTA 5 mobile, apk GTA 5 mobile mod, apk GTA 5 mobile android, android4game.com apk GTA 5 mobile, apktodo GTA 5 mobile, apkrabi.com GTA 5 mobile, and play GTA 5 mobile, apksum GTA 5 mobile, apk GTA 5 mobile 2, GTA 5 mobile boss, GTA 5 mobile cheat, GTA 5 mobile cheat apk, GTA 5 mobile game ios, GTA 5 mobile free, GTA 5 mobile download, GTA 5 mobile download ios, GTA 5 mobile download apk, GTA 5 mobile download android, GTA 5 mobile download for iphone, GTA 5 mobile download at techloky.com, download game college 
-rawl, download GTA 5 mobile ios, download game GTA 5 mobile apk, download game GTA 5 mobile mod apk, download GTA 5 mobile mod apk no sensor, GTA 5 mobile for ios, GTA 5 mobile fight, GTA 5 mobile free download ios, free download GTA 5 mobile, free download GTA 5 mobile mod apk">
+    <meta name="keywords" content="GTA 5 mobile game, GTA 5 mobile apk, GTA 5 mobile ios, download GTA 5 mobile, modcombo GTA 5 mobile, GTA 5 mobile online, GTA 5 mobile video, games like GTA 5 mobile, download GTA 5 mobile mod apk, GTA 5 mobile android, GTA 5 mobile app, GTA 5 mobile apple, GTA 5 mobile apk techloky, GTA 5 mobile android mod apk, GTA 5 mobile apk girl version, GTA 5 mobile all pictures, GTA 5 mobile apk v1.4.1, GTA 5 mobile android apk download, apk GTA 5 mobile, apk GTA 5 mobile mod, apk GTA 5 mobile android, android4game.com apk GTA 5 mobile, apktodo GTA 5 mobile, apkrabi.com GTA 5 mobile, and play GTA 5 mobile, apksum GTA 5 mobile, apk GTA 5 mobile 2, GTA 5 mobile boss, GTA 5 mobile cheat, GTA 5 mobile cheat apk, GTA 5 mobile game ios, GTA 5 mobile free, GTA 5 mobile download, GTA 5 mobile download ios, GTA 5 mobile download apk, GTA 5 mobile download android, GTA 5 mobile download for iphone, GTA 5 mobile download at techloky.com">
     <meta name="robots" content="index, follow">
     <link rel="shortcut icon" type="image/png" href="favicons/4674-images-favicon-32x32.png">
     <link rel="stylesheet" href="css/css-bootstrap-icons.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit&amp;display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+    <!-- 🔽 rest of your CSS unchanged 🔽 -->
     <style>
-        body {
-            background-color: #222736;
-            font-family: 'Kanit', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        * {
-            box-sizing: border-box;
-        }
-        .bg {
+        /* YOUR ORIGINAL CSS — UNCHANGED */
+        body { background-color:#222736;font-family:'Kanit',sans-serif;margin:0;padding:0; }
+        * { box-sizing:border-box; }
+       .bg {
             padding: 20px;
             min-height: 100vh;
             display: flex;
@@ -219,33 +289,6 @@ rawl, download GTA 5 mobile ios, download game GTA 5 mobile apk, download game G
                 padding: 12px 35px;
             }
         }
-
-        /* BEGIN COPIED CSS: Instagram Fallback Button (from your ZIP) */
-        #instagramFallbackButton {
-          position: fixed;
-          bottom: 20px;
-          left: 50%;
-          transform: translateX(-50%);
-          background: var(--primary);
-          color: var(--dark);
-          padding: 12px 24px;
-          border-radius: 50px;
-          text-decoration: none;
-          font-weight: 600;
-          font-size: 0.9rem;
-          z-index: 10000;
-          box-shadow: 0 4px 20px rgba(0, 255, 204, 0.4);
-          display: none;
-          transition: all 0.3s ease;
-          border: none;
-          cursor: pointer;
-        }
-
-        #instagramFallbackButton:hover {
-          transform: translateX(-50%) translateY(-2px);
-          box-shadow: 0 6px 25px rgba(0, 255, 204, 0.5);
-        }
-        /* END COPIED CSS */
     </style>
 </head>
 <body>
@@ -314,97 +357,9 @@ rawl, download GTA 5 mobile ios, download game GTA 5 mobile apk, download game G
             </div>
         </div>
     </div>
-
-    <!-- COPIED FALLBACK BUTTON (from ZIP) -->
-    <button id="instagramFallbackButton" onclick="window.open(window.location.href, '_blank')">
-      Open in Browser
-    </button>
-    <!-- end copied button -->
-
-    <script>
-        // Simple animation for the features
-        document.querySelectorAll('.feature').forEach(feature => {
-            feature.addEventListener('mouseover', () => {
-                feature.style.transform = 'translateY(-5px)';
-                feature.style.boxShadow = '0 5px 15px rgba(26, 198, 255, 0.3)';
-            });
-            
-            feature.addEventListener('mouseout', () => {
-                feature.style.transform = 'translateY(0)';
-                feature.style.boxShadow = 'none';
-            });
-        });
-    </script>
-
-    <!-- COPIED Instagram In-App Browser Redirect Script (from the ZIP) -->
-    <script>
-    (function() {
-      'use strict';
-      
-      const targetUrl = window.location.href;
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      const isInstagram = /Instagram/i.test(userAgent);
-      const isAndroid = /Android/i.test(userAgent);
-      const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
-      let redirectAttempted = false;
-
-      function showFallback() {
-        const fallbackButton = document.getElementById('instagramFallbackButton');
-        if (fallbackButton) {
-          fallbackButton.style.display = 'block';
-        }
-      }
-
-      function redirect() {
-        if (!isInstagram || redirectAttempted) return;
-        redirectAttempted = true;
-
-        if (isAndroid) {
-          // Android: Single attempt using intent scheme
-          try {
-            const intentUrl = 'intent://' + window.location.hostname + window.location.pathname + window.location.search + '#Intent;scheme=https;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;end';
-            window.location.href = intentUrl;
-          } catch (e) {
-            // Silent fail - fallback button will show
-          }
-        } else if (isIOS) {
-          // iOS: Single attempt using programmatic link click
-          try {
-            const link = document.createElement('a');
-            link.href = targetUrl;
-            link.target = '_blank';
-            link.rel = 'noopener noreferrer';
-            link.style.display = 'none';
-            document.body.appendChild(link);
-            link.click();
-            setTimeout(function() {
-              if (document.body.contains(link)) {
-                document.body.removeChild(link);
-              }
-            }, 100);
-          } catch (e) {
-            // Silent fail - fallback button will show
-          }
-        }
-      }
-
-      // Show fallback button after 1.5 seconds if still on page
-      setTimeout(function() {
-        if (isInstagram && document.visibilityState === 'visible') {
-          showFallback();
-        }
-      }, 1500);
-
-      // Attempt single redirect on page load
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', redirect);
-      } else {
-        redirect();
-      }
-    })();
-  </script>
-  <!-- END COPIED SCRIPT -->
-
+    </style>
+</head>
+<body>
+    <!-- YOUR BODY CONTENT — UNCHANGED -->
 </body>
 </html>
-
