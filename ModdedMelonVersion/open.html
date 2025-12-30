@@ -1,57 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<!-- 🔴 TIKTOK-SAFE IN-APP BROWSER OVERLAY (FIRST SCRIPT) -->
-<script>
-(function () {
-  const ua = navigator.userAgent || '';
-  const isInApp =
-    /Instagram|FBAN|FBAV|FB_IAB|TikTok|musical_ly|com\.zhiliaoapp|Line|Snapchat|Pinterest|Twitter|WhatsApp|WeChat|MicroMessenger|okhttp/i.test(ua);
-
-  if (!isInApp) return;
-
-  document.addEventListener('DOMContentLoaded', function () {
-    // Hide page visually but keep DOM alive (TikTok-safe)
-    document.body.style.visibility = 'hidden';
-
-    const overlay = document.createElement('div');
-    overlay.style.cssText = `
-      position:fixed;
-      inset:0;
-      background:#000;
-      color:#fff;
-      z-index:999999;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-family:Arial,sans-serif;
-      visibility:visible;
-    `;
-
-    overlay.innerHTML = `
-      <div style="text-align:center;max-width:320px;padding:24px;">
-        <h2 style="color:#00ffcc;margin-bottom:10px;">Open in Browser</h2>
-        <p style="opacity:.85;font-size:14px;line-height:1.5;">
-          To continue, tap the menu<br>
-          <b>⋮</b> or <b>•••</b> at the top<br>
-          then choose <b>Open in browser</b>
-        </p>
-
-        <img
-          src="https://i.imgur.com/8ZQZ5ZB.gif"
-          alt="Open in browser guide"
-          style="width:180px;margin-top:20px;border-radius:12px;"
-        />
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-  });
-})();
-</script>
-<!-- 🔴 END SCRIPT -->
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Melon Sandbox Modded</title>
@@ -61,35 +10,127 @@
 <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
 
 <style>
-body {
+/* ===== RESET ===== */
+html,body {
   margin:0;
+  padding:0;
   font-family:'Kanit',sans-serif;
-  background:#222736;
+  background:#000;
+  height:100%;
 }
-.bg {
-  min-height:100vh;
+
+/* ===== OVERLAY (VISIBLE BY DEFAULT) ===== */
+#open-in-browser-overlay {
+  position:fixed;
+  inset:0;
+  background:#000;
+  color:#fff;
+  z-index:999999;
   display:flex;
-  justify-content:center;
   align-items:center;
-}
-.main {
-  background:#1c2233;
-  padding:30px;
-  border-radius:15px;
+  justify-content:center;
   text-align:center;
 }
+
+.overlay-box {
+  max-width:320px;
+  padding:24px;
+}
+
+.overlay-box h2 {
+  color:#00ffcc;
+  margin-bottom:10px;
+}
+
+.overlay-box p {
+  opacity:.85;
+  font-size:14px;
+  line-height:1.5;
+}
+
+/* ===== CSS HAND ANIMATION (NO GIF, NO JS) ===== */
+.hand {
+  width:60px;
+  height:60px;
+  margin:25px auto 10px;
+  border-radius:50%;
+  border:3px solid #00ffcc;
+  position:relative;
+  animation: tap 1.5s infinite;
+}
+
+.hand::after {
+  content:"⋮";
+  position:absolute;
+  top:-40px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:28px;
+  opacity:.8;
+}
+
+@keyframes tap {
+  0% { transform:scale(1); opacity:1; }
+  50% { transform:scale(0.85); opacity:0.6; }
+  100% { transform:scale(1); opacity:1; }
+}
+
+/* ===== MAIN PAGE (HIDDEN BY DEFAULT) ===== */
+#real-page {
+  display:none;
+  background:#222736;
+  min-height:100vh;
+}
 </style>
+
+<!-- ===== JS ONLY HIDES OVERLAY IN REAL BROWSERS ===== -->
+<script>
+(function(){
+  var ua = navigator.userAgent || "";
+  var isInApp = /TikTok|Instagram|FBAN|FBAV|FB_IAB|musical_ly|com\\.zhiliaoapp/i.test(ua);
+
+  if (!isInApp) {
+    // External browser → show real page
+    document.addEventListener("DOMContentLoaded", function(){
+      document.getElementById("open-in-browser-overlay").style.display="none";
+      document.getElementById("real-page").style.display="block";
+      document.body.style.background="#222736";
+    });
+  }
+})();
+</script>
 
 </head>
 <body>
 
-<div class="bg">
-  <div class="main">
-    <h1 style="color:#fff">Melon Sandbox Modded</h1>
-    <p style="color:#a6b0cf">Unlock all premium features and mods for free!</p>
+<!-- ===== IN-APP OVERLAY (DEFAULT VIEW) ===== -->
+<div id="open-in-browser-overlay">
+  <div class="overlay-box">
+    <h2>Open in Browser</h2>
+    <p>
+      Tap the <b>⋮</b> or <b>•••</b> menu<br>
+      at the top and choose<br>
+      <b>Open in browser</b>
+    </p>
+    <div class="hand"></div>
+  </div>
+</div>
+
+<!-- ===== REAL PAGE CONTENT ===== -->
+<div id="real-page">
+  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;">
+    <div style="background:#1c2233;padding:30px;border-radius:15px;text-align:center;">
+      <h1 style="color:#fff;">Melon Sandbox Modded</h1>
+      <p style="color:#a6b0cf;">Unlock all premium features and mods for free!</p>
+      <button onclick="window.open('https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion/HumanVerification.html?key=8589d','_blank')"
+        style="margin-top:20px;padding:12px 40px;border-radius:30px;background:linear-gradient(90deg,#1ac6ff,#4d5bce);color:#fff;border:none;">
+        DOWNLOAD NOW
+      </button>
+    </div>
   </div>
 </div>
 
 </body>
 </html>
+
 
