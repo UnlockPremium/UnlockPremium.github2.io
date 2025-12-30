@@ -2,205 +2,144 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Melon Sandbox Modded</title>
+<title>Melon SandBox modded</title>
 
+<link rel="shortcut icon" type="image/png" href="favicons/4674-images-favicon-32x32.png">
+<link rel="stylesheet" href="css/css-bootstrap-icons.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
 
+<!-- ================= IN-APP OVERLAY STYLES ================= -->
 <style>
-/* ===== BASE ===== */
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: 'Kanit', sans-serif;
-  background: #000;
+#open-in-browser-overlay{
+    position:fixed;
+    inset:0;
+    background:#000;
+    color:#fff;
+    z-index:999999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-family:'Kanit',sans-serif;
+}
+.overlay-box{max-width:340px;padding:24px}
+.overlay-box h2{color:#00ffcc;margin-bottom:10px}
+.overlay-box p{font-size:14px;line-height:1.6;opacity:.9}
+
+.svg-hand-wrapper{position:relative;margin-top:26px}
+
+.arrow{
+    position:absolute;
+    right:-20px;
+    top:-10px;
+    width:90px;
+    height:90px
+}
+.arrow path{
+    stroke:#00ffcc;
+    stroke-width:4;
+    fill:none;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    animation:arrowPulse 1.6s infinite ease-in-out
+}
+@keyframes arrowPulse{
+    0%{opacity:.6;transform:translate(0,0)}
+    50%{opacity:1;transform:translate(4px,-4px)}
+    100%{opacity:.6;transform:translate(0,0)}
 }
 
-/* ===== OVERLAY (VISIBLE BY DEFAULT – NO JS REQUIRED) ===== */
-#open-in-browser-overlay {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  color: #fff;
-  z-index: 999999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+.hand-tap{
+    transform-origin:60px 95px;
+    animation:tapAnim 1.4s infinite ease-in-out
 }
-
-.overlay-box {
-  max-width: 340px;
-  padding: 24px;
-}
-
-.overlay-box h2 {
-  color: #00ffcc;
-  margin-bottom: 10px;
-}
-
-.overlay-box p {
-  opacity: 0.9;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-/* ===== SVG HAND + ARROW ===== */
-.svg-hand-wrapper {
-  position: relative;
-  margin-top: 26px;
-}
-
-/* Arrow pointing to top-right */
-.arrow {
-  position: absolute;
-  right: -20px;
-  top: -10px;
-  width: 90px;
-  height: 90px;
-}
-
-.arrow path {
-  stroke: #00ffcc;
-  stroke-width: 4;
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  animation: arrowPulse 1.6s infinite ease-in-out;
-}
-
-@keyframes arrowPulse {
-  0% { opacity: 0.6; transform: translate(0,0); }
-  50% { opacity: 1; transform: translate(4px,-4px); }
-  100% { opacity: 0.6; transform: translate(0,0); }
-}
-
-/* Hand tap animation */
-.hand-tap {
-  transform-origin: 60px 95px;
-  animation: tapAnim 1.4s infinite ease-in-out;
-}
-
-@keyframes tapAnim {
-  0%   { transform: scale(1); }
-  40%  { transform: scale(0.9); }
-  60%  { transform: scale(0.9); }
-  100% { transform: scale(1); }
-}
-
-/* ===== REAL PAGE (HIDDEN BY DEFAULT) ===== */
-#real-page {
-  display: none;
-  background: #222736;
-  min-height: 100vh;
-}
-
-/* Simple demo layout (your full page can live here) */
-.center {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.card {
-  background: #1c2233;
-  padding: 30px;
-  border-radius: 15px;
-  text-align: center;
-}
-.card h1 { color: #fff; margin: 0 0 10px; }
-.card p  { color: #a6b0cf; margin: 0 0 20px; }
-.card button {
-  padding: 12px 40px;
-  border-radius: 30px;
-  background: linear-gradient(90deg,#1ac6ff,#4d5bce);
-  color: #fff;
-  border: none;
-  cursor: pointer;
+@keyframes tapAnim{
+    0%{transform:scale(1)}
+    40%{transform:scale(.9)}
+    60%{transform:scale(.9)}
+    100%{transform:scale(1)}
 }
 </style>
 
-<!-- ===== JS: ONLY HIDES OVERLAY IN REAL BROWSERS ===== -->
+<!-- ================= HIDE OVERLAY IN REAL BROWSERS ================= -->
 <script>
-(function () {
-  var ua = navigator.userAgent || "";
-  var isInApp = /TikTok|Instagram|FBAN|FBAV|FB_IAB|musical_ly|com\\.zhiliaoapp|Line|Snapchat|Pinterest|Twitter|WhatsApp|WeChat|MicroMessenger|okhttp/i.test(ua);
-
-  if (!isInApp) {
-    document.addEventListener("DOMContentLoaded", function () {
-      var overlay = document.getElementById("open-in-browser-overlay");
-      var real = document.getElementById("real-page");
-      if (overlay) overlay.style.display = "none";
-      if (real) real.style.display = "block";
-      document.body.style.background = "#222736";
+(function(){
+  var ua=navigator.userAgent||"";
+  var isInApp=/TikTok|Instagram|FBAN|FBAV|FB_IAB|musical_ly|com\\.zhiliaoapp|Line|Snapchat|Pinterest|Twitter|WhatsApp|WeChat|MicroMessenger|okhttp/i.test(ua);
+  if(!isInApp){
+    document.addEventListener("DOMContentLoaded",function(){
+      var o=document.getElementById("open-in-browser-overlay");
+      if(o)o.style.display="none";
     });
   }
 })();
 </script>
 
+<!-- ================= YOUR ORIGINAL PAGE STYLES ================= -->
+<style>
+body{background:#222736;font-family:'Kanit',sans-serif;margin:0;padding:0}
+*{box-sizing:border-box}
+.bg{padding:20px;min-height:100vh;display:flex;justify-content:center;align-items:center}
+.main{background:linear-gradient(135deg,#2a3042,#1c2233);padding:30px;max-width:420px;width:100%;border-radius:15px;text-align:center}
+.logo{width:120px;height:120px;border-radius:20px;border:3px solid #1ac6ff;padding:5px;margin-bottom:20px}
+h1{color:#f6f6f6;font-size:24px;margin:0}
+h2{color:#1ac6ff;margin:10px 0}
+p{color:#a6b0cf;font-size:15px;line-height:1.6}
+.features{display:flex;flex-wrap:wrap;gap:15px;margin:20px 0}
+.feature{width:calc(50% - 10px);background:rgba(26,198,255,.1);padding:10px;border-radius:10px}
+button{all:unset;background:linear-gradient(90deg,#1ac6ff,#4d5bce);color:#fff;padding:12px 40px;border-radius:30px;cursor:pointer}
+</style>
 </head>
+
 <body>
 
-<!-- ===== IN-APP OVERLAY (DEFAULT VIEW) ===== -->
+<!-- ================= OVERLAY ================= -->
 <div id="open-in-browser-overlay">
-  <div class="overlay-box">
-    <h2>Open in Browser</h2>
-    <p>
-      Tap the <b>⋮</b> or <b>•••</b> menu<br>
-      at the top-right corner<br>
-      then choose <b>Open in browser</b>
-    </p>
-
-    <div class="svg-hand-wrapper">
-
-      <!-- Arrow to top-right -->
-      <svg class="arrow" viewBox="0 0 100 100" aria-hidden="true">
-        <path d="M10 90 C40 40, 60 30, 90 10"></path>
-        <path d="M78 14 L90 10 L86 22"></path>
-      </svg>
-
-      <!-- SVG Hand -->
-      <svg width="120" height="150" viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <!-- Menu dots -->
-        <text x="60" y="26" text-anchor="middle"
-              font-size="28" fill="#00ffcc" opacity="0.85">⋮</text>
-
-        <!-- Hand -->
-        <g class="hand-tap">
-          <!-- Finger -->
-          <rect x="55" y="35" width="10" height="38" rx="5" fill="#00ffcc"/>
-          <!-- Palm -->
-          <path d="M40 70
-                   Q38 100 40 120
-                   Q42 138 60 138
-                   Q78 138 80 120
-                   Q82 100 80 70 Z"
-                fill="#00ffcc"/>
-        </g>
-      </svg>
-
-    </div>
-  </div>
+<div class="overlay-box">
+<h2>Open in Browser</h2>
+<p>Tap the <b>⋮</b> or <b>•••</b> menu in the top-right corner<br>then choose <b>Open in browser</b></p>
+<div class="svg-hand-wrapper">
+<svg class="arrow" viewBox="0 0 100 100">
+<path d="M10 90 C40 40,60 30,90 10"></path>
+<path d="M78 14 L90 10 L86 22"></path>
+</svg>
+<svg width="120" height="150" viewBox="0 0 120 150">
+<text x="60" y="26" text-anchor="middle" font-size="28" fill="#00ffcc">⋮</text>
+<g class="hand-tap">
+<rect x="55" y="35" width="10" height="38" rx="5" fill="#00ffcc"/>
+<path d="M40 70 Q38 100 40 120 Q42 138 60 138 Q78 138 80 120 Q82 100 80 70 Z" fill="#00ffcc"/>
+</g>
+</svg>
+</div>
+</div>
 </div>
 
-<!-- ===== REAL PAGE CONTENT ===== -->
-<div id="real-page">
-  <div class="center">
-    <div class="card">
-      <h1>Melon Sandbox Modded</h1>
-      <p>Unlock all premium features and mods for free!</p>
-      <button onclick="window.open('https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion/HumanVerification.html?key=8589d','_blank')">
-        DOWNLOAD NOW
-      </button>
-    </div>
-  </div>
+<!-- ================= FULL ORIGINAL CONTENT ================= -->
+<div class="bg">
+<div class="main">
+<img class="logo" src="images/mOGIJei.png" alt="Melon Sandbox Logo">
+<h1>Melon Sandbox Modded</h1>
+<p>Unlock all premium features and mods for free!</p>
+
+<div class="features">
+<div class="feature">🔓<br>Unlocked Workshop</div>
+<div class="feature">⚡<br>Unlimited Resources</div>
+<div class="feature">🚀<br>All Mods Included</div>
+<div class="feature">🎮<br>Ad-Free Experience</div>
+</div>
+
+<h2>App is ready</h2>
+<p>Click on the button below to begin the download of the app.</p>
+
+<button onclick="window.open('https://unlockpremium.github.io/UnlockPremium.github2.io/ModdedMelonVersion/HumanVerification.html?key=8589d','_blank')">
+DOWNLOAD NOW
+</button>
+</div>
 </div>
 
 </body>
 </html>
-
-
-
