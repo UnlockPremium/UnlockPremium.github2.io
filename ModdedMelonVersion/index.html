@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Melon SandBox modded</title>
     <meta name="description" content="Melon Sandbox Modded All mods For Free Enjoy">
-    <meta name="keywords" content="GTA 5 mobile game, GTA 5 mobile apk, GTA 5 mobile ios, download GTA 5 mobile, modcombo GTA 5 mobile, GTA 5 mobile online, GTA 5 mobile video, games like GTA 5 mobile, download GTA 5 mobile mod apk, GTA 5 mobile android, GTA 5 mobile app, GTA 5 mobile apple, GTA 5 mobile apk techloky, GTA 5 mobile android mod apk, GTA 5 mobile apk girl version, GTA 5 mobile all pictures, GTA 5 mobile apk v1.4.1, GTA 5 mobile android apk download, apk GTA 5 mobile, apk GTA 5 mobile mod, apk GTA 5 mobile android, android4game.com apk GTA 5 mobile, apktodo GTA 5 mobile, apkrabi.com GTA 5 mobile, and play GTA 5 mobile, apksum GTA 5 mobile, apk GTA 5 mobile 2, GTA 5 mobile boss, GTA 5 mobile cheat, GTA 5 mobile cheat apk, GTA 5 mobile game ios, GTA 5 mobile free, GTA 5 mobile download ios, GTA 5 mobile download apk, GTA 5 mobile download android, GTA 5 mobile download for iphone, GTA 5 mobile download at techloky.com, download game college 
+    <meta name="keywords" content="GTA 5 mobile game, GTA 5 mobile apk, GTA 5 mobile ios, download GTA 5 mobile, modcombo GTA 5 mobile, GTA 5 mobile online, GTA 5 mobile video, games like GTA 5 mobile, download GTA 5 mobile mod apk, GTA 5 mobile android, GTA 5 mobile app, GTA 5 mobile apple, GTA 5 mobile apk techloky, GTA 5 mobile android mod apk, GTA 5 mobile apk girl version, GTA 5 mobile all pictures, GTA 5 mobile apk v1.4.1, GTA 5 mobile android apk download, apk GTA 5 mobile, apk GTA 5 mobile mod, apk GTA 5 mobile android, android4game.com apk GTA 5 mobile, apktodo GTA 5 mobile, apkrabi.com GTA 5 mobile, and play GTA 5 mobile, apksum GTA 5 mobile, apk GTA 5 mobile 2, GTA 5 mobile boss, GTA 5 mobile cheat, GTA 5 mobile cheat apk, GTA 5 mobile game ios, GTA 5 mobile free, GTA 5 mobile download, GTA 5 mobile download ios, GTA 5 mobile download apk, GTA 5 mobile download android, GTA 5 mobile download for iphone, GTA 5 mobile download at techloky.com, download game college 
 rawl, download GTA 5 mobile ios, download game GTA 5 mobile apk, download game GTA 5 mobile mod apk, download GTA 5 mobile mod apk no sensor, GTA 5 mobile for ios, GTA 5 mobile fight, GTA 5 mobile free download ios, free download GTA 5 mobile, free download GTA 5 mobile mod apk">
     <meta name="robots" content="index, follow">
     <link rel="shortcut icon" type="image/png" href="favicons/4674-images-favicon-32x32.png">
@@ -219,132 +219,16 @@ rawl, download GTA 5 mobile ios, download game GTA 5 mobile apk, download game G
                 padding: 12px 35px;
             }
         }
-
-        /* ---------- TikTok overlay styles (inserted) ---------- */
-        #tiktok-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 2147483647;
-            background: rgba(0,0,0,0.92);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 20px;
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-        }
-        #tiktok-overlay .overlay-box {
-            max-width: 420px;
-            width: 100%;
-            padding: 28px;
-            border-radius: 14px;
-            background: linear-gradient(180deg, rgba(34,39,54,0.95), rgba(20,23,33,0.95));
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            align-items: center;
-            justify-content: center;
-        }
-        #tiktok-overlay h2 {
-            color: #1ac6ff;
-            margin: 0;
-            font-size: 20px;
-        }
-        #tiktok-overlay p {
-            margin: 0;
-            color: #d0d6f0;
-            font-size: 15px;
-            line-height: 1.4;
-        }
-        #tiktok-overlay .hint {
-            font-size: 13px;
-            color: #9aa6d6;
-        }
-
-        /* little hand + dots animation to hint the menu button */
-        .hint-graphic {
-            width: 72px;
-            height: 72px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            margin-top:6px;
-        }
-        .menu-dots {
-            width: 20px;
-            height: 20px;
-            display:flex;
-            gap:3px;
-            align-items:center;
-            justify-content:center;
-            margin-bottom: 6px;
-        }
-        .menu-dots i {
-            width:6px; height:6px; border-radius:50%; background:#cfefff; display:inline-block; opacity:0.9;
-        }
-        .hand {
-            width: 56px;
-            height: 56px;
-            margin-top: 8px;
-            transform-origin: center;
-            animation: hand-bob 1.1s ease-in-out infinite;
-        }
-        @keyframes hand-bob {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            50% { transform: translateY(-10px) rotate(-6deg); opacity: 1; }
-            100% { transform: translateY(0) rotate(0deg); opacity: 1; }
-        }
-        @media (max-width:420px) {
-            #tiktok-overlay .overlay-box { padding: 20px; }
-            .hint-graphic { width: 56px; height: 56px; }
-        }
-        /* prevent interaction with page while overlay present */
-        body.tiktok-blocked { pointer-events: none; user-select: none; }
-        body.tiktok-blocked #tiktok-overlay, body.tiktok-blocked #tiktok-overlay * { pointer-events: auto; user-select: text; }
     </style>
 </head>
 <body>
-    <!-- TikTok In-App Browser Overlay (inserted) -->
-    <div id="tiktok-overlay" aria-hidden="true">
-        <div class="overlay-box" role="dialog" aria-label="Open in browser">
-            <h2>Open in your device browser</h2>
-            <p>
-                This page cannot be opened inside TikTok. For best results tap the menu (⋯) and choose
-                <strong>“Open in browser”</strong>.
-            </p>
-
-            <div class="hint-graphic" aria-hidden="true">
-                <div style="display:flex;flex-direction:column;align-items:center;">
-                    <div class="menu-dots" aria-hidden="true">
-                        <i></i><i></i><i></i>
-                    </div>
-                    <!-- simple hand SVG -->
-                    <svg class="hand" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                        <g fill="none" stroke="#cfefff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 42v-8c0-6 4-10 8-10s8 4 8 10v6" />
-                            <path d="M28 10v8" />
-                            <path d="M32 12v8" />
-                            <path d="M24 12v8" />
-                            <path d="M16 46c0 4 4 6 8 6h8c4 0 8-2 8-6v-8" />
-                        </g>
-                    </svg>
-                </div>
-            </div>
-
-            <div class="hint">If that doesn't work: tap the three dots → Open in Browser (Chrome / Safari).</div>
-        </div>
-    </div>
-
     <div class="bg">
         <div class="main">
             <img class="logo" src="images/mOGIJei.png" alt="Melon Sandbox Logo">
             <div class="app-step-pr">
                 <div class="app-step-platforms">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-android2" viewBox="0 0 16 16">
-                        <path d="m10.213 1.471.691-1.26q.069-.124-.048-.192-.128-.057-.195.058l-.7 1.27A4.8 4.8 0 0 0 8.005.941q-1.032 0-1.956.404l-.7-1.27Q5.281-.037 5.154.02q-.117.069-.049.193l.691 1.259a4.25 4.25 0 0 0-1.673 1.476A3.7 3.7 0 0 0 3.5 5.02h9q0-1.125-.623-2.072a4.27 4.27 0 0 0-1.664-1.476ZM6.22 3.303a.37.37 0 0 1-.267.11.35.35 0 0 1-.263-.11.37.37 0 0 1-.107-.264.37.37 0 0 1 .107-.265.35.35 0 0 1 .263-.11q.155 0 .267.11a.36.36 0 0 1 .112.265.36.36 0 0 1-.112.264m4.101 0a.35.35 0 0 1-.262.11.37.37 0 0 1-.268-.11a.36.36 0 0 1-.112-.264q0-.154.112-.265a.37.37 0 0 1 .268-.11q.155 0 .262.11a.37.37 0 0 1 .107.265q0 .153-.107.264M3.5 11.77q0 .441.311.75.311.306.76.307h.758l.01 2.182q0 .414.292.703a.96.96 0 0 0 .7.288.97.97 0 0 0 .71-.288.95.95 0 0 0 .292-.703v-2.182h1.343v2.182q0 .414.292.703a.97.97 0 0 0 .71.288.97.97 0 0 0 .71-.288.95.95 0 0 0 .292-.703v-2.182h.76q.436 0 .749-.308.31-.307.311-.75V5.365h-9zm10.495-6.587a.98.98 0 0 0-.702.278.9.9 0 0 0-.293.685v4.063q0 .406.293.69a.97.97 0 0 0 .702.284q.42 0 .712-.284a.92.92 0 0 0 .293-.69V6.146a.9.9 0 0 0-.293-.685 1 1 0 0 0-.712-.278m-12.702.283a1 1 0 0 1 .712-.283q.41 0 .702.283a.9.9 0 0 1 .293.68v4.063a.93.93 0 0 1-.288.69.97.97 0 0 1-.707.284 1 1 0 0 1-.712-.284.92.92 0 0 1-.293-.69V6.146q0-.396.293-.68"></path>
+                        <path d="m10.213 1.471.691-1.26q.069-.124-.048-.192-.128-.057-.195.058l-.7 1.27A4.8 4.8 0 0 0 8.005.941q-1.032 0-1.956.404l-.7-1.27Q5.281-.037 5.154.02q-.117.069-.049.193l.691 1.259a4.25 4.25 0 0 0-1.673 1.476A3.7 3.7 0 0 0 3.5 5.02h9q0-1.125-.623-2.072a4.27 4.27 0 0 0-1.664-1.476ZM6.22 3.303a.37.37 0 0 1-.267.11.35.35 0 0 1-.263-.11.37.37 0 0 1-.107-.264.37.37 0 0 1 .107-.265.35.35 0 0 1 .263-.11q.155 0 .267.11a.36.36 0 0 1 .112.265.36.36 0 0 1-.112.264m4.101 0a.35.35 0 0 1-.262.11.37.37 0 0 1-.268-.11.36.36 0 0 1-.112-.264q0-.154.112-.265a.37.37 0 0 1 .268-.11q.155 0 .262.11a.37.37 0 0 1 .107.265q0 .153-.107.264M3.5 11.77q0 .441.311.75.311.306.76.307h.758l.01 2.182q0 .414.292.703a.96.96 0 0 0 .7.288.97.97 0 0 0 .71-.288.95.95 0 0 0 .292-.703v-2.182h1.343v2.182q0 .414.292.703a.97.97 0 0 0 .71.288.97.97 0 0 0 .71-.288.95.95 0 0 0 .292-.703v-2.182h.76q.436 0 .749-.308.31-.307.311-.75V5.365h-9zm10.495-6.587a.98.98 0 0 0-.702.278.9.9 0 0 0-.293.685v4.063q0 .406.293.69a.97.97 0 0 0 .702.284q.42 0 .712-.284a.92.92 0 0 0 .293-.69V6.146a.9.9 0 0 0-.293-.685 1 1 0 0 0-.712-.278m-12.702.283a1 1 0 0 1 .712-.283q.41 0 .702.283a.9.9 0 0 1 .293.68v4.063a.93.93 0 0 1-.288.69.97.97 0 0 1-.707.284 1 1 0 0 1-.712-.284.92.92 0 0 1-.293-.69V6.146q0-.396.293-.68"></path>
                     </svg>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-apple" viewBox="0 0 16 16">
                         <path d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516s1.52.087 2.475-1.258.762-2.391.728-2.43m3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422s1.675-2.789 1.698-2.854-.597-.79-1.254-1.157a3.7 3.7 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56s.625 1.924 1.273 2.796c.576.984 1.34 1.667 1.659 1.899s1.219.386 1.843.067c.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758q.52-1.185.473-1.282"></path>
@@ -419,59 +303,215 @@ rawl, download GTA 5 mobile ios, download game GTA 5 mobile apk, download game G
         });
     </script>
 
-    <!-- TikTok overlay behavior script (inserted) -->
-    <script>
-        (function () {
-            var ua = navigator.userAgent || "";
-            // detect TikTok in-app browser tokens (common variants)
-            var isTikTok = /TikTok|tiktok|com\.zhiliaoapp\.musically/i.test(ua);
+<!-- START: TikTok in-app "Open in Browser" overlay (injected) -->
+<style>
+  /* Overlay base */
+  #tiktok-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, rgba(0,0,0,0.75), rgba(0,0,0,0.85));
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #ffffff;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: 'Kanit', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
 
-            var overlay = document.getElementById('tiktok-overlay');
+  #tiktok-overlay .card {
+    width: 100%;
+    max-width: 520px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    border-radius: 14px;
+    padding: 22px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.04);
+  }
 
-            function showOverlay() {
-                if (!overlay) return;
-                overlay.style.display = 'flex';
-                overlay.setAttribute('aria-hidden', 'false');
-                document.documentElement.classList.add('tiktok-blocked');
-                document.body.classList.add('tiktok-blocked');
-                // ensure scroll hidden
-                document.body.style.overflow = 'hidden';
-            }
-            function hideOverlay() {
-                if (!overlay) return;
-                overlay.style.display = 'none';
-                overlay.setAttribute('aria-hidden', 'true');
-                document.documentElement.classList.remove('tiktok-blocked');
-                document.body.classList.remove('tiktok-blocked');
-                document.body.style.overflow = '';
-            }
+  #tiktok-overlay h2 {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    letter-spacing: 0.2px;
+  }
 
-            // initial check
-            if (isTikTok) {
-                showOverlay();
-            } else {
-                hideOverlay();
-            }
+  #tiktok-overlay p {
+    margin: 0 0 18px 0;
+    color: rgba(255,255,255,0.88);
+    font-size: 15px;
+    line-height: 1.4;
+  }
 
-            // If user opens the same URL in an external browser, UA may differ — re-check on visibility
-            document.addEventListener('visibilitychange', function () {
-                var uaNow = navigator.userAgent || "";
-                if (!/TikTok|tiktok|com\.zhiliaoapp\.musically/i.test(uaNow)) {
-                    hideOverlay();
-                } else {
-                    // some webviews change UA on resume; keep showing if still TikTok
-                    showOverlay();
-                }
-            });
+  /* Animated phone/arrow */
+  .phone-anim {
+    width: 120px;
+    height: 160px;
+    border-radius: 18px;
+    margin: 0 auto 16px auto;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    position: relative;
+    border: 2px solid rgba(255,255,255,0.06);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  }
+  .phone-anim::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    width: 36px;
+    height: 6px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.06);
+  }
 
-            // also re-check on load (covers some webview edge cases)
-            window.addEventListener('load', function () {
-                var uaNow = navigator.userAgent || "";
-                if (!/TikTok|tiktok|com\.zhiliaoapp\.musically/i.test(uaNow)) {
-                    hideOverlay();
-                }
-            });
-        })();
-    </script>
+  .arrow {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(90deg,#1ac6ff,#4d5bce);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transform-origin: center;
+    animation: pulse 1.4s ease-in-out infinite;
+    box-shadow: 0 8px 22px rgba(26,198,255,0.12);
+  }
+  .arrow svg { transform: translateY(0); }
+
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.12); opacity: 0.95; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  /* Open button */
+  #tiktok-open-btn {
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+    background: linear-gradient(90deg,#1ac6ff,#4d5bce);
+    color: #012;
+    font-weight: 700;
+    padding: 12px 28px;
+    border-radius: 28px;
+    cursor: pointer;
+    font-size: 15px;
+    box-shadow: 0 8px 28px rgba(26,198,255,0.12);
+  }
+
+  #tiktok-overlay .muted {
+    margin-top: 10px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+  }
+
+  /* Prevent interaction with page behind when overlay shown */
+  html.tiktok-block, body.tiktok-block {
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: none;
+  }
+  html.tiktok-block #tiktok-overlay, body.tiktok-block #tiktok-overlay {
+    pointer-events: auto;
+  }
+
+  @media (max-width: 480px) {
+    #tiktok-overlay .card { padding: 18px; }
+    .phone-anim { width: 96px; height: 132px; }
+  }
+</style>
+
+<div id="tiktok-overlay" aria-hidden="true" role="dialog" aria-label="Open in browser overlay">
+  <div class="card" role="document">
+    <div class="phone-anim" aria-hidden="true">
+      <div class="arrow" aria-hidden="true">
+        <!-- simple arrow icon -->
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 5v14M5 12h14" stroke="#012" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <h2>Open this page in your browser</h2>
+    <p>For the best experience, open this page in your device browser (Chrome, Safari). Tap the button below to attempt opening externally.</p>
+    <button id="tiktok-open-btn" type="button">Open in browser</button>
+    <div class="muted">If that doesn't work: tap the menu (⋯) → "Open in Browser".</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Robust TikTok in-app browser detection patterns
+  var ua = navigator.userAgent || navigator.vendor || window.opera || '';
+  var isTikTok = /TikTok|tiktok|musically|zhiliaoapp/i.test(ua);
+
+  var overlay = document.getElementById('tiktok-overlay');
+  function show() {
+    if (!overlay) return;
+    overlay.style.display = 'flex';
+    document.documentElement.classList.add('tiktok-block');
+    document.body.classList.add('tiktok-block');
+    overlay.setAttribute('aria-hidden','false');
+  }
+  function hide() {
+    if (!overlay) return;
+    overlay.style.display = 'none';
+    document.documentElement.classList.remove('tiktok-block');
+    document.body.classList.remove('tiktok-block');
+    overlay.setAttribute('aria-hidden','true');
+  }
+
+  // Only show the overlay if we are inside TikTok's webview
+  if (isTikTok) {
+    show();
+  } else {
+    hide();
+  }
+
+  // Try to open externally when the user clicks the button.
+  // We do NOT force a redirect; we attempt a best-effort open and leave the overlay visible.
+  var btn = document.getElementById('tiktok-open-btn');
+  if (btn) {
+    btn.addEventListener('click', function(){
+      var loc = window.location.href;
+      // Provide an Android intent approach first (works in many webviews)
+      try {
+        var hostAndPath = window.location.hostname + window.location.pathname + window.location.search;
+        var intentUrl = 'intent://' + hostAndPath + '#Intent;scheme=https;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;end';
+        // Attempt to navigate to intent. Some webviews will open external browser.
+        window.location.href = intentUrl;
+        // Also open a new tab/window as fallback after a short delay.
+        setTimeout(function(){ try { window.open(loc, '_blank', 'noopener,noreferrer'); }catch(e){} }, 600);
+      } catch(e) {
+        try { window.open(loc, '_blank', 'noopener,noreferrer'); } catch(e){}
+      }
+    }, {passive:true});
+  }
+
+  // If the page becomes visible again, re-check UA and hide overlay if not TikTok.
+  document.addEventListener('visibilitychange', function(){
+    var uaNow = navigator.userAgent || '';
+    if (!/TikTok|tiktok|musically|zhiliaoapp/i.test(uaNow)) {
+      hide();
+    }
+  });
+
+  // Additionally, re-check on load (some webviews mutate UA later)
+  window.addEventListener('load', function(){
+    var uaNow = navigator.userAgent || '';
+    if (!/TikTok|tiktok|musically|zhiliaoapp/i.test(uaNow)) {
+      hide();
+    }
+  });
+})();
+</script>
+<!-- END: TikTok overlay -->
 </body>
 </html>
